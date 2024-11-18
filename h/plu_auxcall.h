@@ -1,0 +1,11 @@
+extern INT8U get_tare_fromid(INT16U id,INT8U *tare_type, INT32U *tare_value, INT8U *tare_unit);
+extern void get_weightunit_and_id_fromid(INT8U id, INT8U *new_id, INT8U *plu_unit);
+////extern INT32U get_weightunit_fromid(INT8U id, INT8U *plu_unit);
+extern INT32U get_unitweight(INT8U ret, INT8U unit);
+extern INT8U get_unitweight_id(INT32U unitweight, INT8U wunit);
+// extern INT8U  get_discount(PLU_BASE *Plu,INT16U id);
+extern void calc_discount(INT16S id);
+extern void calc_global_discount(INT8U dtype);
+extern INT8U get_barcodeformat(INT16U barid, char *str, INT8U *barcode_type);
+extern INT8U get_barcodetype(INT32U a);
+extern INT32U get_defaultunit(INT8U w_unit);
