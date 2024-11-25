@@ -223,44 +223,7 @@ void keyapp_nonweighing_mode(void);
 #endif
 void keyapp_change_keyset(INT16U dept_id);
 
-static void fill_sp_str(char *str, int size);
 static void disp_msg_ext_prt(void);
-
-/**
- * @brief  문자 배열에서 NULL 문자 뒤의 남는 공간을 공백(space) 문자로 채우는 함수
- * @param  str  : 문자열
- * @param  size : 문자 배열 전체 크기
- * @return void 
- */
-static void fill_sp_str(char *str, int size)
-{
-	INT32U cnt;
-
-	cnt = strlen(str);
-	while(cnt < size - 1) {
-		str[cnt++] = ' ';
-	}
-}
-
-/**
- * @brief  문자열에서 콜론을 찾아서 지우고, 공백 문자(space)를 넣는 함수 
- * @param  str  : 문자열
- * @param  size : 문자 배열 전체 크기
- * @return void
- * @remark 뒤에서부터 콜론을 찾아서 하나만 삭제하고 종료
- *         ex) Use Ext.Prt on Prepack:
- */
-static void remove_colon(char *str, int size)
-{
-	INT32S i;
-
-	for (i = size - 2; i >= 0; i--) {
-		if(str[i] == ':') {
-			str[i] = ' ';
-			break;
-		}
-	}
-}
 
 /**
  * @brief  외부 프린트 인쇄 시 화면에 문구 표시
@@ -269,16 +232,9 @@ static void remove_colon(char *str, int size)
  */
 static void disp_msg_ext_prt(void)
 {
-	char buf[CAPTION_MAX_SIZE+1] = {0}; 
-
-	if (caption_get_name(0x38A3, buf)) {
-		char str[CAPTION_DISP_SIZE+1] = {0};
-
-		strncpy(str, buf, sizeof(str)-1);
-		fill_sp_str(str, sizeof(str));
-		remove_colon(str, sizeof(str));
-		DisplayMsg(str);
-	}
+	/* 한글 등 폰트 크기가 다를 경우 외부 프린트 메시지를 디스플레이에 표시 시 겹침 문제로 인해 
+	   영어로만 통일하여 표시하기로 함(캡션 사용 x, 하드코딩으로) */
+	DisplayMsg("Ext Prt");
 }
 
 void	MsgCanadianTare(void)
@@ -1385,7 +1341,7 @@ void key_function(void)
 						Zerokey_input_Flag = ON;
 #endif
 						break;
-#if defined(USE_VIETNAM_EMART_DEFAULT)
+#ifdef USE_VIETNAM_EMART_DEFAULT
 					case KS_UNUSE : BuzOn(2);break;
 #endif
 #ifdef USE_TOPMART_DEFAULT //sewon 170116

@@ -1846,7 +1846,7 @@ void plu_struct_set_base(void)
 #ifdef USE_HYUNDAI_CHECK_REASON_CODE
 		sum+=plu_struct_set(idx++,"LabelMsg No."	,PTYPE_LABEL_MSG_NO 	,'B', 0l,	   9l, 1, 1, 0,i);	// 55
 #elif defined(USE_VIETNAM_LOTTEMART_DEFAULT)
-		sum+=plu_struct_set(idx++,"LabelMsg No."	,PTYPE_LABEL_MSG_NO		,'B', 0l,     30l, 2, 1, 0,i);	// 55
+		sum+=plu_struct_set(idx++,"LabelMsg No."	,PTYPE_LABEL_MSG_NO 	,'B', 0l,	   30l, 2, 1, 0,i);	// 55
 #else
 		sum+=plu_struct_set(idx++,"LabelMsg No."	,PTYPE_LABEL_MSG_NO		,'B', 0l,     99l, 2, 1, 0,i);	// 55
 #endif

@@ -25,7 +25,8 @@
  #define USE_CTS_FUNCTION		   			        // Calibration Traceability System
  #define USE_GSMART_PLU
  #define PLU_COMMODITY_LINE_NO 5	        // 상품명5단
- #define USE_VNM_LOTTEMART_INGREDIENT
+ #define USE_KOR_INGREDIENT_EXPAND
+ #define USE_EXPAND_ADVEMSG_STR            // 광고문구 필드 길이 100byte로 확장(기존 30byte) / 갯수 30개로 축소(기존 99개)
 //----------   국가 전용 라벨 설정  ----------//
  #define USE_ENG_LABELFORMAT				        // 영공 라벨포맷 사용
  #define USE_KOR_LABELFORMAT				        // 국내 라벨포맷 사용(No.32~45 사용)

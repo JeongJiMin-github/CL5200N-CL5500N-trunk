@@ -514,7 +514,7 @@ ROMDATA COUNTRY_SETTING_TYPE	ParameterCountry[]=
 
 	{  566,	     COUNTRY_UN,	0   },//Check Connection of Master's Remote ip
 	{  567, 	 COUNTRY_UN,	0	},
-#if defined(USE_VIETNAM_EMART_DEFAULT)
+#ifdef USE_VIETNAM_EMART_DEFAULT
 	{  567, 	 COUNTRY_UN,	1	},
 #endif
 #if defined (USE_TOPMART_DEFAULT)

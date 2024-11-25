@@ -4448,7 +4448,6 @@ void prtfield_generate_common_item(void)
 	INT16U ingredSize,days;
 	INT32U v32_1;
 	INT8U sellbydate_check,prepack_type,time_print_type;
-	INT16U vnm_ingredient = 1022;
 	char string_buf[128];
 #ifdef USE_PRT_DISC_PERCENT
 	char disc_buf[40];
@@ -6453,13 +6452,13 @@ void prtfield_generate_common_item(void)
 						ingredientBuf[MAX_INGREDIENT_SIZE - 1] = 0;
 						//addrp = (char *)addr;
 						addrp = (char *)ingredientBuf;
-						for (v16_2=0; v16_2<vnm_ingredient; v16_2++) {
+						for (v16_2=0; v16_2<ingredSize; v16_2++) {
 							if (addrp[v16_2]==0x0c) {
 								v8_1 =1;
 								v16_1=v16_2;
 								break;
 							}
-							if (addrp[v16_2]==0x0) 	break;
+							if (addrp[v16_2]==0x0) break;
 						}
   #ifndef USE_EMART_ETC_COMMON_TEXT
 						if (fieldid==FIELD_ID_INGREDIENT_STR2) {

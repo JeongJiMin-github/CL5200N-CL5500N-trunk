@@ -68,7 +68,7 @@ void	label_message_create(void)		// command code  0x1241
 	//INT16U cap_code[2]={0x3241,0x3242};
 	INT16U cap_code[2]={90,0x3242};
 	menu1_create(0x1241,cap_code, FLASH_PRT_ADVE_AREA, PRT_ADVE_STRUCT_SIZE, ON);
-	// menu1_create(0x1241,cap_code, FLASH_PRT_ADVE_AREA, 70, ON);
+	// ]		
 }
 
 void    label_message_delete(void)		// command code  0x1243

@@ -4,7 +4,11 @@
 typedef struct  {
 
 		INT16U	code;
+#ifdef USE_VIETNAM_LOTTEMART_DEFAULT
+		INT8U	text[202];
+#else
 		INT8U	text[62];
+#endif
 } MENU_TYPE1_STRUCT;	
 #pragma pack()
 

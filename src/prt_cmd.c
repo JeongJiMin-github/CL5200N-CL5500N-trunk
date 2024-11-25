@@ -201,7 +201,7 @@ void LabCmd_SetTextField(INT8U field_num,char *str)
 	PutDataRxBuf(&CommBufPrt,string_buf,i);
 }
 
-void __attribute__((optimize("-O0")))LabCmd_SetTextField_Direct(INT8U field_num, char *str, INT16U m_size)
+void LabCmd_SetTextField_Direct(INT8U field_num, char *str, INT16U m_size)
 {
 	char string_buf[500];
 	INT16U	i, len;
@@ -225,11 +225,8 @@ void __attribute__((optimize("-O0")))LabCmd_SetTextField_Direct(INT8U field_num,
 		if(str[len]=='\0') break;
 	}
 	if(len > m_size) len = m_size;
-    INT16U a = m_size;
-    INT16U b = len;
-	PutDataRxBuf(&CommBufPrt,(HUGEDATA char*)str,m_size);
+	PutDataRxBuf(&CommBufPrt,(HUGEDATA char*)str,len);
 	string_buf[0] = '\0';
-    string_buf[1] = (INT8U)a;
 	PutDataRxBuf(&CommBufPrt,string_buf,1);
 }
 

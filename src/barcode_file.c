@@ -1147,10 +1147,11 @@ void barcodefile_default_for_vietnam(void)
 {
 	INT8U i;
 	BARCODE_STRUCT vietnamForm[] = {
-		{1,	"Weight",	BARCODE_TYPE_EAN13,	0,	"2IIIIIIWWWWWC"	},
-		{2,	"Count",	BARCODE_TYPE_EAN13,	0,	"1IIIIIIQQQQQC"	},
+		{1,	"Weight",	BARCODE_TYPE_EAN13,		0,	"2IIIIIIWWWWWC"	},
+		{2,	"Count",	BARCODE_TYPE_EAN13,		0,	"1IIIIIIQQQQQC"	},
+		{3,	"New",		BARCODE_TYPE_CODE128,	0,	"F11111VPPPPPPPWWWWC"	},
 	};
-	for (i=0;i<2;i++)
+	for (i=0;i<3;i++)
 	{
 		set_base_sparam(FLASH_BARCODE_FORMAT_AREA + (BARCODE_STRUCT_SIZE * (INT32U)i),(INT8U *)&vietnamForm[i],sizeof(BARCODE_STRUCT));
 	}

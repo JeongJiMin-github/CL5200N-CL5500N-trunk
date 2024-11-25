@@ -249,22 +249,19 @@
     #endif
   #endif
 
-  #ifdef USE_VNM_LOTTEMART_INGREDIENT
+  #ifdef USE_VIETNAM_LOTTEMART_DEFAULT						// 베트남 롯데마트 펌웨어 성분 필드 사이즈 확장
 	#define DEFAULT_INGREDIENT_SIZE 		1022
   #else
 	#define DEFAULT_INGREDIENT_SIZE 		512
   #endif
 
-  #ifdef USE_VNM_LOTTEMART_INGREDIENT
-	#define DEFAULT_INGREDIENT_TEXT_SIZE	152
-  #else
 	#define DEFAULT_INGREDIENT_TEXT_SIZE	304
-  #endif
 
 	#define INGREDIENT_BASIC_AREA_QTY	100l
   #ifdef USE_KOR_INGREDIENT_EXPAND							// 국내 내수형 펌웨어 PLU 구조(상품명5단) 기준 성분 1,600개 확장 (기존: 200개(100+100)), PLU 개수 8,000개 유지
   	#define INGREDIENT_PREV_EXPAND_EXTER_AREA_QTY	100l	// 확장한 부분이 시작하는 주소 값을 계산하기 위한 상수 정의
-	#ifdef USE_VNM_LOTTEMART_INGREDIENT						// 베트남 롯데마트 펌웨어 PLU 구조(상품명5단) 기준 성분 800개 (기존: 200개(100+100)), PLU 개수 8,000개 유지
+	
+	#ifdef USE_VIETNAM_LOTTEMART_DEFAULT					// 베트남 롯데마트 펌웨어 PLU 구조(상품명5단) 기준 성분 800개 (기존: 200개(100+100)), PLU 개수 8,000개 유지
 		#define INGREDIENT_EXTER_AREA_QTY	700l
 	#else
 		#define INGREDIENT_EXTER_AREA_QTY	1500l

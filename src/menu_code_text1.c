@@ -232,7 +232,12 @@ void	menu1_create(INT16U code, INT16U *cap_code, INT32U _MENU_AREA, INT16U str_s
  	INT32U	start_addr, flash_addr;//cap_addr, 
 	INT16S 	result;
 	INT32U	cur_id;
-	INT8U   set_str[200];
+#ifdef USE_VIETNAM_LOTTEMART_DEFAULT
+// USE_EXPAND_MENU_STRING
+	INT8U   set_str[210];	//전체적용
+#else
+	INT8U   set_str[101];
+#endif
 	INT16U  properties;
 	INT32U  id_max, id_min;
 	

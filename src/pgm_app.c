@@ -276,7 +276,11 @@ void display_pgm_list(INT16U title_cap, INT16U boundary_cap, INT16U *input_cap, 
 	CAPTION_STRUCT 		cap;
 	POINT 			disp_p;
 	MENU_TYPE1_STRUCT	menu_type1_str;
-	char   	string_buf[200], end_flag;
+#ifdef USE_VIETNAM_LOTTEMART_DEFAULT
+	char   	string_buf[210], end_flag;
+#else
+	char   	string_buf[64], end_flag;
+#endif
 	long 	ret_long, i;
 	INT16S	start_num, end_num, cur_id;
 	INT16S	j, result, min_num, max_num, lcd_size;	

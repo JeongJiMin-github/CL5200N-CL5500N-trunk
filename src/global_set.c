@@ -1024,6 +1024,8 @@ void global_set_country(INT16U country, INT8U flagKeepDefaultCaption)
 			global_set_default_code000();
 #ifdef  USE_ONLY_LABEL
 			set_global_wparam(GLOBAL_ACTION_ENABLE, FUNC_DEPTNO|FUNC_DISCOUNT|FUNC_TARE_TBL|FUNC_GROUP);
+#elif defined USE_VIETNAM_LOTTEMART_DEFAULT
+			set_global_wparam(GLOBAL_ACTION_ENABLE, FUNC_DEPTNO|FUNC_DISCOUNT|FUNC_CLERK|FUNC_TARE_TBL|FUNC_GROUP|FUNC_ORG_TBL);
 #else
 			set_global_wparam(GLOBAL_ACTION_ENABLE, FUNC_DEPTNO|FUNC_DISCOUNT|FUNC_CLERK|FUNC_TARE_TBL|FUNC_GROUP);	// 20060809
 #endif
@@ -2593,7 +2595,7 @@ void global_set_default_code003(void)// EU LABEL
     #endif
 	set_global_bparam(GLOBAL_DATETIME_MODE       ,0xb0);	// 10110000
 	
-    #if defined(USE_VIETNAM_EMART_DEFAULT)
+    #ifdef USE_VIETNAM_EMART_DEFAULT
 	barcodefile_default_for_Vietman_Emart();
     #endif
 	#ifdef USE_INDIA_TATA_DEFAULT

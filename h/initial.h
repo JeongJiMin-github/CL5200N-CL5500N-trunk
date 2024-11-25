@@ -94,10 +94,10 @@ extern INT32U FLASH_PLU_AREA_PNT;
 #define PRINT_FORMAT_SIZE			54
 #define TARE_STRUCT_SIZE			24
 
-#ifdef	USE_VIETNAM_LOTTEMART_DEFAULT
-	#define	PRT_ADVE_STRUCT_SIZE		102
+#ifdef USE_EXPAND_ADVEMSG_STR
+	#define	PRT_ADVE_STRUCT_SIZE		102		// 광고문구 100byte 확장(나머지 2byte는 id)
 #else
-	#define	PRT_ADVE_STRUCT_SIZE		32
+	#define	PRT_ADVE_STRUCT_SIZE		32		// 기존 광고문구 30byte(나머지 2byte는 id)
 #endif
 
 #ifdef	USE_BARCODE_LEN_60
@@ -624,7 +624,8 @@ extern INT32U MAX_PLU_extend8M;
 #define MAX_CAPTION_NO		1200
 #endif
 #define MAX_TAX_NO      	10		// INPUT 1~9		// id=10(room no. 9)은 Tax free
-#ifdef USE_VIETNAM_LOTTEMART_DEFAULT
+
+#ifdef USE_EXPAND_ADVEMSG_STR
 	#define MAX_LABEL_MSG_NO    31		// INPUT 1~30
 #else
 	#define MAX_LABEL_MSG_NO    100		// INPUT 1~99
