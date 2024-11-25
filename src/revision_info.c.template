@@ -8,12 +8,10 @@
 |*  Description     :   Revision Info
 |*				
 ****************************************************************************/
+#include "globals.h"
 
-#include "revision_info.h"
+INT32U GetRevision(void);
 
-// URL : $WCURL$
-// 현재 Revision 가져오기
-INT32U GetRevision(void)
-{
-	return $WCREV$;
-}
+
+#define GET_REVISION	$WCREV$
+#define LOAD_REVISION   "r$WCREV$"

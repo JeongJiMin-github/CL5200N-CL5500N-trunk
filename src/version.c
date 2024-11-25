@@ -10,6 +10,7 @@
 ****************************************************************************/
 
 #include "globals.h"
+#include "revision_info.h"
 
 ////////////////////////////////////////////////////////
 //Version String Description
@@ -38,23 +39,31 @@
 //  EU0 : 일반버전
 ////////////////////////////////////////////////////////
 
+#define VER1	"3"
+#define VER2	"07"
+#define VER3	"09"
+
+#ifdef USE_AUTO_FIND_VERSION
+#define FINDING_START 	"_veRsIon"
+#define FINDING_END		"_eNd"
+#endif
 #if defined(USE_KOR_TRACE)
   #ifdef CL5200_PROJECT
-	ROMDATA  char VERSION_STRING[] = {"C42108KT1P09307"};  //CL5200-P
+	ROMDATA  char VERSION_STRING[] = {"C42108KT1P"VER3 VER1 VER2};  //CL5200-P
   #else
-	ROMDATA  char VERSION_STRING[] = {"CL2108KT1D09307"};  
+	ROMDATA  char VERSION_STRING[] = {"CL2108KT1D"VER3 VER1 VER2};  
   #endif
 #elif defined(USE_TRACE_STANDALONE)
   #ifdef CL5200_PROJECT
-	ROMDATA  char VERSION_STRING[] = {"C42108KS1P09307"};  //CL5200-P
+	ROMDATA  char VERSION_STRING[] = {"C42108KS1P"VER3 VER1 VER2};  //CL5200-P
   #else
-	ROMDATA  char VERSION_STRING[] = {"CL2108KS1D09307"};  
+	ROMDATA  char VERSION_STRING[] = {"CL2108KS1D"VER3 VER1 VER2};  
   #endif
 #else
   #ifdef CL5200N_BP
-	ROMDATA  char VERSION_STRING[] = {"C42108EU0P09307"}; //CL5200N-P
+	ROMDATA  char VERSION_STRING[] = {"C42108EU0P"VER3 VER1 VER2}; //CL5200N-P
   #elif defined(CL5500N_BPRH) || defined(CL5500N_D)
-	ROMDATA  char VERSION_STRING[] = {"CL2108EU0P09307"}; //CL5500N, CL5500N-D 
+	ROMDATA  char VERSION_STRING[] = {"CL2108EU0P"VER3 VER1 VER2}; //CL5500N, CL5500N-D 
   #endif
 #endif
 				//16 chars include NULL
@@ -68,6 +77,14 @@
 
 ROMDATA  char VERSION_STRING2[4] = {DEALER_VER_STRING};	// "(R)"
 ROMDATA  char VERSION_COUNTRY[3] = {COUNTRY_STR};	// "AU"
+
+#ifdef USE_AUTO_FIND_VERSION
+ #ifdef CL5500N_D
+	ROMDATA  char GET_VERSION_NAME_GEN[] = FINDING_START "_" "CL5500N-D" "_" COUNTRY_STR "_" "V"VER1 VER2 VER3 "_" DEALER_VER_STRING "_" LOAD_REVISION FINDING_END;
+ #else
+	ROMDATA  char GET_VERSION_NAME_GEN[] = FINDING_START "_" MODEL_NAME "_" COUNTRY_STR "_" "V"VER1 VER2 VER3 "_" DEALER_VER_STRING "_" LOAD_REVISION FINDING_END;
+ #endif 
+#endif
 
 void version_get(FW_VERSION *fw)
 {

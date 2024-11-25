@@ -1,14 +1,17 @@
 /*****************************************************************************
 |*			
 |*  Copyright       :   (c) 2020 CAS
-|*  Filename        :   revision_info.h
+|*  Filename        :   revision_info.c.template
 |*  Version         :   0.1
 |*  Programmer(s)   :   Oh Dong-Jin (oh0203)
 |*  Created         :   2020/06/05
-|*  Description     :   Revision Info Header
+|*  Description     :   Revision Info
 |*				
 ****************************************************************************/
-
 #include "globals.h"
 
 INT32U GetRevision(void);
+
+
+#define GET_REVISION	3847
+#define LOAD_REVISION   "r3847"

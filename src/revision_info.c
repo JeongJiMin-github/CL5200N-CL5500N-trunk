@@ -11,9 +11,9 @@
 
 #include "revision_info.h"
 
-// URL : https://10.10.1.210/svn/CL5200N/Firmware/Scale/Trunk
+// URL : https://10.10.1.210/svn/CN1/Firmware/Scale/Trunk
 // 현재 Revision 가져오기
 INT32U GetRevision(void)
 {
-	return 3838;
+	return GET_REVISION;
 }
