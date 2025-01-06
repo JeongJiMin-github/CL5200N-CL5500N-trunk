@@ -611,10 +611,15 @@ void usb_update_check(void)
 #ifdef USE_CTS_FUNCTION
 		if (CtsStruct.CtsExpired)
 			wait_time = 220; // CTS Alarm 10 sec
+		else if (EthCardStruct.DHCPEnable)
+			wait_time = 960; // DHCP 실패 시 최대 1분 33초 소요 + 3초 : 96초
 		else
-			wait_time = 120;
+			wait_time = 120; // booting시간 (약9초) + 3초 : 12초
 #else
-		wait_time = 120;
+		if(EthCardStruct.DHCPEnable)
+			wait_time = 960; // DHCP 실패 시 최대 1분 33초 소요 + 3초 : 96초
+		else			
+			wait_time = 120; // booting시간 (약9초) + 3초 : 12초
 #endif
 		if((SysTimer100ms - SysBootTime) > wait_time) // booting시간(약9초) + 3초 : 12초
 		{

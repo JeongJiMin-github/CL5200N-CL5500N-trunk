@@ -1139,7 +1139,9 @@ void discount_create(void)
 
 DISCOUNT_START:
 	dc_no = _get_new_dc_number();
-	if (dc_no>=MAX_DISCOUNT_NO) 
+	flash_addr = get_addr_discount_area(dc_no);
+	
+	if (dc_no>=MAX_DISCOUNT_NO)
 	{	// data full
 		error_display_caption(0xF035);
 		flash_addr = get_addr_discount_area(1);

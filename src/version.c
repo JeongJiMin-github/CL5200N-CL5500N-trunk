@@ -40,8 +40,8 @@
 ////////////////////////////////////////////////////////
 
 #define VER1	"3"
-#define VER2	"07"
-#define VER3	"09"
+#define VER2	"08"
+#define VER3	"00"
 
 #ifdef USE_AUTO_FIND_VERSION
 #define FINDING_START 	"_veRsIon"

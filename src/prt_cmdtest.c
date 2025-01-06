@@ -3097,11 +3097,16 @@ EMART:
 					}
 					else
 					{
-#endif // #ifdef USE_LOGISTICS_BARCODE				
-#ifdef USE_SELLBYDATETIME_ZERO
+#endif // #ifdef USE_LOGISTICS_BARCODE	
+#ifdef USE_GEORGIA_MART_SELLBYDATE_FUNCTION
+					/* Sell_by_Date Value 0일때 Today 출력하고 900 이상일때 No Print 기능 (그루지아 Agrohub 마트 요청) */
+					if (PrtItemStr.sellbydate < 900)
+#else			
+  #ifdef USE_SELLBYDATETIME_ZERO
 					if (PrtItemStr.sellbydate || PrtItemStr.sellbytime) 		// Sell by Date or Sell by Time존재시
-#else
+  #else
 					if (PrtItemStr.sellbydate || PrtItemStr.sellbytime || PrtItemStr.flagsellbydate == 2)		// Sell by Date or Sell by Time존재시
+  #endif
 #endif
 						// Date 계산
 					{
@@ -3115,7 +3120,11 @@ EMART:
 							v16_4 = (INT16U)PrtComStr.time.month;
 							v16_5 = (INT16U)PrtComStr.time.date;
 							v16_1 = (INT16U)PrtItemStr.sellbydate;
+#ifdef USE_GEORGIA_MART_SELLBYDATE_FUNCTION
+							// 그루지아 Agrohub 마트 요청을 Input_value 1일때 바로 Tomorrow 출력되도록 함
+#else
 							if(v16_1 > 0) v16_1--;	// sell by date  0:no print, 1:today, 2:tomorrow...
+#endif							
 							v16_1 = v16_1 + PrtItemStr.packedondate;	// Packed Date + Sell by Date
 						}
 						// Time 계산
@@ -5943,15 +5952,21 @@ void prtfield_generate_common_item(void)
 						PrtItemStr.sellbydate = get_base_bparam(FLASH_BACK_LABEL_VALID_DATE);
 					}
 #endif
+				#ifdef USE_GEORGIA_MART_SELLBYDATE_FUNCTION
+					/* Sell_by_Date Value 0일때 Today 출력하고 900 이상일때 No Print 기능 (그루지아 Agrohub 마트 요청) */
+					if (PrtItemStr.sellbydate < 900) 
+				#else
 					#ifdef USE_SELLBYDATETIME_ZERO
 					#ifdef USE_DONT_SAVE_VALIDDATE_SALEDATE
-					if (PrtItemStr.sellbydate || PrtItemStr.sellbytime || temp_selldate.onoff) {		// Sell by Date , Sell by Time, temp_selldate.onoff존재시					
+					if (PrtItemStr.sellbydate || PrtItemStr.sellbytime || temp_selldate.onoff)		// Sell by Date , Sell by Time, temp_selldate.onoff존재시					
 					#else
-					if (PrtItemStr.sellbydate || PrtItemStr.sellbytime) {		// Sell by Date or Sell by Time존재시					
+					if (PrtItemStr.sellbydate || PrtItemStr.sellbytime)		// Sell by Date or Sell by Time존재시					
 					#endif
 					#else
-					if (PrtItemStr.sellbydate || PrtItemStr.sellbytime || PrtItemStr.flagsellbydate == 2) {		// Sell by Date or Sell by Time존재시
+					if (PrtItemStr.sellbydate || PrtItemStr.sellbytime || PrtItemStr.flagsellbydate == 2)		// Sell by Date or Sell by Time존재시
 					#endif
+				#endif
+					{
 					#ifdef USE_DONT_SAVE_VALIDDATE_SALEDATE
 					if(temp_selldate.onoff==ON){
 						if(temp_selldate.deptno == PrtItemStr.l_DeptNo && temp_selldate.pluno == PrtItemStr.l_PluNo)
@@ -5973,7 +5988,11 @@ void prtfield_generate_common_item(void)
 							v16_4 = (INT16U)PrtComStr.time.month;
 							v16_5 = (INT16U)PrtComStr.time.date;
 							v16_1 = (INT16U)PrtItemStr.sellbydate;
+#ifdef USE_GEORGIA_MART_SELLBYDATE_FUNCTION
+							// 그루지아 Agrohub 마트 요청을 Input_value 1일때 바로 Tomorrow 출력되도록 함
+#else
 							if(v16_1 > 0) v16_1--;	// sell by date  0:no print, 1:today, 2:tomorrow...
+#endif
 							v16_1 = v16_1 + PrtItemStr.packedondate;	// Packed Date + Sell by Date
 						}
 						// Time 계산

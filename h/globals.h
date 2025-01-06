@@ -25,7 +25,7 @@
 * 			                   < Model Type >
 ********************************************************************************
 */
-//#define CL5200N_BP     //CL5200N-BP
+#define CL5200N_BP     //CL5200N-BP
 //#define CL5500N_BPRH
 //#define CL5500N_D
 /********************************************************************************/
@@ -36,7 +36,7 @@
 * 			                   Compile Condition 2-1
 * 			                   < Nation Define >
 * 		< Dealer Code >
-* 		Used Code : A     D E F G H I J K L M N   P Q R S T U V W X Y Z "TR" "SM" "PT" "DM" "TA" "SK" "KR" "SR" "PL" "LG"
+* 		Used Code : A     D E F G H I J K L M N   P Q R S T U V W X Y Z "TR" "SM" "PT" "DM" "TA" "SK" "KR" "SR" "PL" "LG" "VL" "GA"
 * 		              a b c d e   g h i   k l m n o p   r s t u v    y z "sp" "kr"
 * 		Remained Code :   B C                        O                    
 * 		                              j         o    q             x 
@@ -57,7 +57,7 @@
 //#define USE_GSMART							// (G) GS 마트 설정
 //#define USE_GSMART_TRACE    					// (M) GS 마트 축산 설정
 //#define USE_HYUNDAI       					// (H) 현대백화점 설정
-//#define USE_IMPORT_MEAT						// (I) 독립형 개체이력 (수입육 위해 개체)
+#define USE_IMPORT_MEAT						// (I) 독립형 개체이력 (수입육 위해 개체)
 //#define USE_IMPORT_MEAT_8LINE					// (I8) 독립형 + 상품명 8단 적용
 //#define USE_KOREA_CL5200     					// (k) CL5200 내수 버젼 (이력관리 기능 삭제)
 //#define USE_LOTTEMART       					// (J) Lotte Mart(국내 수입육 + GS1 DataBar Expand)
@@ -81,6 +81,7 @@
 //#define USE_CHN_STANDARDMARKET				// (c) 중국표준화시장
 //#define USE_CHN_TRACE_STANDARD				// (F) chinese trace standard (gb2312) <= chn E-Mart
 //#define USE_GBR_HMART							// (P) 영국 H-MART 설정(한글폰트)
+//#define USE_GEO_AGROHUB_MART					// GA 그루지아 Agrohub 마트 전용 딜러롬 파생(전용 Sell by Date 기능 적용)
 //#define USE_GLOBAL_KOREAN_MART    			// KR 해외에 있는 한인 마트 적용. 기본적으로 영공 기반 펌웨어인데, PLU 이름은 한글로 표시, 메뉴 등은 영어로 표시 (영공 기반)
 //#define USE_HEBREW							// (h) 히브리어 (이스라엘)
 //#define USE_INDIA_DADUS						// DM 인도(DADUS MITHAI VATIKA)
@@ -193,6 +194,7 @@
 	#define USE_DISPLAY_COMM_SPEED_SETTING			// 계량모드에서 화면을 계속 갱신하고 있어서, PLU 전송 속도 느려지는 문제 개선 (P770 추가)
     #define USE_DSP_USB_FW_UPDATE_VERSION           // USB FW 업데이트 시 문구 및 버전 표시
     #define USE_DSP_MESSAGE_FOR_MEM_CLEAR           // Memory clear 동안 메세지 표시
+	//#define USE_AUTO_FIND_VERSION					// 버전 정보 자동으로 찾아오는 기능
     //----------   CL5200N Test용 기능  ----------//
 //	#define USE_CPU_LOAD_TEST                       // CPU Load Test - 주기적으로 NVRAM Read/Write, 주기적인 연속 발행 인쇄 
 //	#define USE_TEST_AUTO_LABEL_PRINT				// 전원 ON 시 체스 라벨 1번 발행 테스트
@@ -241,6 +243,7 @@
 	#define USE_DATETIME_ZIG_TEST					// RTC TEST (MENU 1867/MENU 8570에서 RTC Read/Write, RTC Battery 동작 확인)
 	#define USE_DSP_USB_FW_UPDATE_VERSION           // USB FW 업데이트 시 문구 및 버전 표시
     #define USE_DSP_MESSAGE_FOR_MEM_CLEAR           // Memory clear 동안 메세지 표시
+	//#define USE_AUTO_FIND_VERSION					// 버전 정보 자동으로 찾아오는 기능
     //----------   CL5200N Test용 기능  ----------//
 //	#define USE_CPU_LOAD_TEST                       // CPU Load Test - 주기적으로 NVRAM Read/Write, 주기적인 연속 발행 인쇄 
 //	#define USE_TEST_AUTO_LABEL_PRINT				// 전원 ON 시 체스 라벨 1번 발행 테스트
@@ -600,6 +603,10 @@
 
 #ifdef USE_GBR_HMART
 	#include "./Nation/GBR_HMART_P.h"
+#endif
+
+#ifdef USE_GEO_AGROHUB_MART
+	#include "./Nation/GEO_AGROHUB_MART_GA.h"
 #endif
 
 #ifdef USE_GLOBAL_KOREAN_MART

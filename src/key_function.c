@@ -3017,10 +3017,15 @@ void external_print_sellbydate(char *send_string, INT8U sellbydate_check)
 
 	if (PrtItemStr.flagsellbydate != 1)
 	{
-#ifdef USE_SELLBYDATETIME_ZERO
-		if (PrtItemStr.sellbydate || PrtItemStr.sellbytime)		 // Sell by Date or Sell by Time존재시
+#ifdef USE_GEORGIA_MART_SELLBYDATE_FUNCTION
+		/* Sell_by_Date Value 0일때 Today 출력하고 900 이상일때 No Print 기능 (그루지아 Agrohub 마트 요청) */
+		if (PrtItemStr.sellbydate < 900)				
 #else
+  #ifdef USE_SELLBYDATETIME_ZERO
+		if (PrtItemStr.sellbydate || PrtItemStr.sellbytime)		 // Sell by Date or Sell by Time존재시
+  #else
 		if (PrtItemStr.sellbydate || PrtItemStr.sellbytime || PrtItemStr.flagsellbydate == 2)	 // Sell by Date or Sell by Time존재시
+  #endif
 #endif
 		{
 			// Date 계산
@@ -3034,7 +3039,11 @@ void external_print_sellbydate(char *send_string, INT8U sellbydate_check)
 				v16_4 = (INT16U)PrtComStr.time.month;
 				v16_5 = (INT16U)PrtComStr.time.date;
 				v16_1 = (INT16U)PrtItemStr.sellbydate;
+#ifdef USE_GEORGIA_MART_SELLBYDATE_FUNCTION
+				// 그루지아 Agrohub 마트 요청을 Input_value 1일때 바로 Tomorrow 출력되도록 함
+#else				
 				if(v16_1 > 0) v16_1--;	// sell by date  0:no print, 1:today, 2:tomorrow...
+#endif				
 				v16_1 = v16_1 + PrtItemStr.packedondate;	// Packed Date + Sell by Date
 			}
 			// Time 계산

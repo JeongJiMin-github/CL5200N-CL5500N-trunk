@@ -6,6 +6,9 @@
 - [스리랑카] M8700 진입 오류 개선
 - [공통] USB DataRom 업데이트 오류 개선
 - [우즈베키스탄] 전용 사양 펌웨어 파생
+- [인도] Numeric Tare 및 Weight Tare Block 파라미터화
+- [인도] EAN-13 바코드 기준으로 Add-Total Transaction 개수 확장
+- [인도] Enable GST 파라미터화
 
 ##### V3.07.7 #####
 - [공통] Nutrition Fact - Energy 캡션 Enable 처리
