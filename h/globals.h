@@ -12,6 +12,8 @@
 #ifndef _GLOBALS_H
 #define _GLOBALS_H
 // 브랜치 테스트용 주석
+// 브랜치 테스트용 주석2
+
 #include "app.h"
 
 #define	_USE_SERIAL_   //use 232 port  only CLP Printer 
