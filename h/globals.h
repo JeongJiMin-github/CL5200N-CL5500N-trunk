@@ -8,7 +8,7 @@
 |*  Description		:	CLP Printer global variable define    
 |*				
 ****************************************************************************/
-//테스트 브랜치
+
 #ifndef _GLOBALS_H
 #define _GLOBALS_H
 
