@@ -40,7 +40,7 @@
  #define USE_TRACE_PIG_STANDALONE
  #define USE_TRACE_CALL_MEATGRADE_KEY	    // 등급변경 키 사용. (PLU 등급 미사용)
  #define USE_DIGIT4_PRODUCT_SYMBOL          //생산일 바코드인쇄시 4자리로 표현  년(1)월(1)일(2) -> 2015년 12월 25일 : 5275 10월 넘어가면 일에 50더함. 육가공업체용 제주남문점 요청
- #define USE_KOR_INGREDIENT_EXPAND	        // 국내 내수형 펌웨어 PLU 구조(상품명5단) 기준 성분 16,000개 확장 (기존: 200개), PLU 개수 8,000개 유지
+ #define USE_KOR_INGREDIENT_EXPAND	        // 국내 내수형 펌웨어 PLU 구조(상품명5단) 기준 성분 1,600개 확장 (기존: 200개), PLU 개수 8,000개 유지
  #define NOT_USE_NETSET_LOCK				// 저울 잠금기능 사용하지 않음
  #define USE_CTS_FUNCTION 					// Calibration Traceability System
  #define USE_IMPORT_LOTNO 					// 수입육 이력 번호 24자리 확장 기능. 이 기능 사용하면 이력정보 초기화후에 사용해야함. 메모리 초기화!!

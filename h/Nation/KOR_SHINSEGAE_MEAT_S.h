@@ -32,7 +32,7 @@
  #define USE_TRACE_PIG_STANDALONE
  #define USE_TRACE_CALL_MEATGRADE_KEY       // 등급변경 키 사용. (PLU 등급 미사용)
  #define USE_MARBLING_GRADE_PRINT
- //#define USE_KOR_INGREDIENT_EXPAND	    // 국내 내수형 펌웨어 PLU 구조(상품명5단) 기준 성분 16,000개 확장 (기존: 200개), PLU 개수 8,000개 유지
+ //#define USE_KOR_INGREDIENT_EXPAND	    // 국내 내수형 펌웨어 PLU 구조(상품명5단) 기준 성분 1,600개 확장 (기존: 200개), PLU 개수 8,000개 유지
  #undef USE_CTS_FUNCTION			        // 마트는 CTS 사용 안함
 //----------   국가 전용 라벨 설정  ----------//
  #define USE_KOR_LABELFORMAT		        // 국내 라벨포맷 사용(No.32~45 사용)

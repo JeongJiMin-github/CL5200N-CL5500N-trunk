@@ -22,7 +22,7 @@
  // #define USE_KOREA_CL5200_STANDARD_KEY
  #define USE_KOREA_CL3000_STANDARD_KEY
  #define NOT_USE_TRACE_CL5200
- #define USE_KOR_INGREDIENT_EXPAND	        // 국내 내수형 펌웨어 PLU 구조(상품명5단) 기준 성분 16,000개 확장 (기존: 200개), PLU 개수 8,000개 유지
+ #define USE_KOR_INGREDIENT_EXPAND	        // 국내 내수형 펌웨어 PLU 구조(상품명5단) 기준 성분 1,600개 확장 (기존: 200개), PLU 개수 8,000개 유지
 //----------   국가 전용 라벨 설정  ----------//
  #define USE_KOR_LABELFORMAT		        // 국내 라벨포맷 사용(No.32~45 사용)
  #define USE_ENG_LABELFORMAT                // 기본 라벨 1~28번 추가
