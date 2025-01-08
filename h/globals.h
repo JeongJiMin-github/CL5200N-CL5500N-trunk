@@ -25,8 +25,8 @@
 * 			                   < Model Type >
 ********************************************************************************
 */
-#define CL5200N_BP     //CL5200N-BP
-//#define CL5500N_BPRH
+//#define CL5200N_BP     //CL5200N-BP
+#define CL5500N_BPRH
 //#define CL5500N_D
 /********************************************************************************/
 
@@ -36,9 +36,9 @@
 * 			                   Compile Condition 2-1
 * 			                   < Nation Define >
 * 		< Dealer Code >
-* 		Used Code : A     D E F G H I J K L M N   P Q R S T U V W X Y Z "TR" "SM" "PT" "DM" "TA" "SK" "KR" "SR" "PL" "LG" "VL" "GA"
+* 		Used Code : A B   D E F G H I J K L M N   P Q R S T U V W X Y Z "TR" "SM" "PT" "DM" "TA" "SK" "KR" "SR" "PL" "LG" "VL" "GA"
 * 		              a b c d e   g h i   k l m n o p   r s t u v    y z "sp" "kr"
-* 		Remained Code :   B C                        O                    
+* 		Remained Code :    C                        O                    
 * 		                              j         o    q             x 
 ********************************************************************************
 */
@@ -52,12 +52,13 @@
 //#define USE_RUSSIA							// (R) 러시아
 
 //------- 국내 펌웨어 (알파벳, 오름차순 정렬) -------//
+//#define USE_BESTCO_MART						// (B) 대상유통(Bestco Mart) 전용 설정
 //#define USE_DISCLOSURE_MEAT_PRICE 			// (g) 축산물 공시제 (독립형 개체이력 base)
 //#define USE_EMART           					// (E) E-Mart - 이마트의 경우 V3.03.7부터 (E)버전과  (m)버전을 통합하여 (E)으로 만 관리
 //#define USE_GSMART							// (G) GS 마트 설정
 //#define USE_GSMART_TRACE    					// (M) GS 마트 축산 설정
 //#define USE_HYUNDAI       					// (H) 현대백화점 설정
-#define USE_IMPORT_MEAT						// (I) 독립형 개체이력 (수입육 위해 개체)
+//#define USE_IMPORT_MEAT						// (I) 독립형 개체이력 (수입육 위해 개체)
 //#define USE_IMPORT_MEAT_8LINE					// (I8) 독립형 + 상품명 8단 적용
 //#define USE_KOREA_CL5200     					// (k) CL5200 내수 버젼 (이력관리 기능 삭제)
 //#define USE_LOTTEMART       					// (J) Lotte Mart(국내 수입육 + GS1 DataBar Expand)
@@ -457,6 +458,10 @@
 *                   전용 국가별 기능 difine
 ********************************************************************************
 */
+#ifdef USE_BESTCO_MART
+	#include "./Nation/KOR_BESTCO_B.h"
+#endif
+
 #ifdef USE_UN_LOGISTICS
 	#include "./Nation/UN_LG.h"
 #endif
