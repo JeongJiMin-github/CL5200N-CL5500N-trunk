@@ -546,7 +546,7 @@ ROMDATA COUNTRY_SETTING_TYPE	ParameterCountry[]=
 #else
 	{  573,	     COUNTRY_UN, 	0   },//Allow Unit Price Change
 #endif
-#if defined(USE_LOTTEMART_DEFAULT) || defined(USE_SUNWOO_POS_DEFAULT) || defined(USE_LOTTESUPER_DEFAULT)
+#if defined(USE_LOTTEMART_DEFAULT) || defined(USE_SUNWOO_POS_DEFAULT) || defined(USE_LOTTESUPER_DEFAULT) || defined(USE_BESTCO_DEFAULT)
 	{  573,	     COUNTRY_KR, 	0   },//Allow Unit Price Change
 #else //USE_GSMART_TRACE_DEFAULT
 	{  573,	     COUNTRY_KR, 	1   },//Allow Unit Price Change
@@ -646,6 +646,8 @@ ROMDATA COUNTRY_SETTING_TYPE	ParameterCountry[]=
 
 #ifdef USE_AUSTRALIA_DEFAULT
 	{  591,	     COUNTRY_UN,	5   },
+#elif defined(USE_BESTCO_DEFAULT)
+	{  591,	     COUNTRY_KR,	10  }, // Price Round Unit
 #else
 	{  591,	     COUNTRY_UN,	0   }, // Price Round Unit
 #endif
