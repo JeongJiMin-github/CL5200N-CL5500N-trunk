@@ -148,6 +148,9 @@ typedef struct {
 	INT8U	discountflag;
 	INT8U	discount_rate;
 #endif
+#ifdef USE_BESTCO_DISCOUNT_DIVISION
+	INT8U	percent_discount_flag;
+#endif
     INT16U key_last_used_100ms; 	// key가 눌러질 때 업데이트
 	INT16U ad_last_used_100ms;		// 무게가 변동될 때 업데이트
 	INT8U divisor;	//1/2, 1/3, 1/4
