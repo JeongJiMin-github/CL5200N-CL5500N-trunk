@@ -463,6 +463,9 @@ void barcodefile_default_KR_trace(void)
 #ifdef USE_SHINSEGAE_DEFAULT
 		{5, "신세계바코드",	BARCODE_TYPE_CODE128,		0,	"DDIIIIIPPPPPPWWWWWEC"}, //20digit
 #endif
+#ifdef USE_BESTCO_DEFAULT
+		{5, "베스트코바코드",	BARCODE_TYPE_CODE128,		0,	"2NNNNNWWWWWPPPPPPXXC"}, //20digit
+#endif
 	};
 
 	for (i = 0; i < sizeof(bar_default_Form)/sizeof(BARCODE_STRUCT); i++)

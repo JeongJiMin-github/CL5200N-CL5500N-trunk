@@ -7006,7 +7006,11 @@ void keyapp_minus_disc(void)
 		keyapp_common_disc(tPrice);
 		Operation.transactionOK = OFF;
 #if defined(USE_GSMART_BARCODE) || defined(USE_BARCODE_DISCOUNT_RATE)		
-		status_scale.discountflag = 1;
+  #ifdef USE_BESTCO_DISCOUNT_DIVISION
+	status_scale.discountflag = 40;
+  #else
+	status_scale.discountflag = 1;
+  #endif /* USE_BESTCO_DISCOUNT_DIVISION */
 #endif
 	} else {
 		keyapp_common_disccancel();
@@ -7127,7 +7131,12 @@ void keyapp_sale_percent(void)
 		keyapp_common_disc(tPer);
 		Operation.transactionOK = OFF; //SG060419
 #if defined(USE_GSMART_BARCODE) || defined(USE_PRT_CHNIA_DISCOUNT_RATE)
-		status_scale.discountflag = 2;
+  #ifdef USE_BESTCO_DISCOUNT_DIVISION
+	status_scale.discountflag = 40;
+	status_scale.percent_discount_flag = 1;
+  #else
+	status_scale.discountflag = 2;
+  #endif /* USE_BESTCO_DISCOUNT_DIVISION */
 		status_scale.discount_rate = (INT8U)tPer;
 #endif
 	} else {
@@ -10992,7 +11001,12 @@ void sale_pluclear(INT16S keyFlag)
 	status_scale.cur_ptare= 0;
 #endif
 #if defined(USE_GSMART_BARCODE) || defined(USE_PRT_CHNIA_DISCOUNT_RATE)
+  #ifdef USE_BESTCO_DISCOUNT_DIVISION
+	status_scale.discountflag = 12;
+	status_scale.percent_discount_flag = 0;
+  #else
 	status_scale.discountflag = 0;
+  #endif /* USE_BESTCO_DISCOUNT_DIVISION */
 	status_scale.discount_rate = 0;
 #endif
 	status_scale.divisor = 0;
