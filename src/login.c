@@ -410,7 +410,7 @@ void	InitPermissionKor(CLERK_PERMISSION_STRUCT* pp)
 	pp->sale_return		=0;
 	pp->sale_override	=0;
 	pp->cash_open		=0;
-#ifdef USE_NHMART_DEFAULT
+#if defined (USE_NHMART_DEFAULT) || defined(USE_BESTCO_DEFAULT)
 	pp->edit_menu		=1;
 #else
 	pp->edit_menu		=0;
