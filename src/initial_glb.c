@@ -320,7 +320,7 @@ ROMDATA PARAMETER_SETTING_TYPE  ParameterUserSetting[]=
 #else
 	{  322,	     0,		GLOBAL_SALE_SETUP_FLAG10,	FLASH_GLOBAL_AREA,		1,    	    4,	     4,	       2,	COUNTRY_UN}, //Menu1873 Use sending trace. Info:
 #endif
-#if (defined(USE_GSMART_DEFAULT) || defined(USE_GSMART_TRACE_DEFAULT) || defined(USE_LOTTEMART_DEFAULT))
+#if (defined(USE_GSMART_DEFAULT) || defined(USE_GSMART_TRACE_DEFAULT) || defined(USE_LOTTEMART_DEFAULT)) || defined(USE_BESTCO_DEFAULT)
 	{  323,	     2,		GLOBAL_SALE_SETUP_FLAG10,	FLASH_GLOBAL_AREA,		1,    	    4,	     6,	       2,	COUNTRY_KR}, //Menu1873 Use double/togle key 
 #endif
 	{  324,	     3,		GLOBAL_SALE_SETUP_FLAG11,	FLASH_GLOBAL_AREA,		1,    	    4,	     3,	       4,	COUNTRY_UN}, //Menu1873 Double key delay time(100ms):
