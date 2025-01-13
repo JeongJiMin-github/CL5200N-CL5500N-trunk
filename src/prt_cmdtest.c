@@ -3103,7 +3103,7 @@ EMART:
 					{
 #endif // #ifdef USE_LOGISTICS_BARCODE	
 #ifdef USE_GEORGIA_MART_SELLBYDATE_FUNCTION
-					/* Sell_by_Date Value 0이 아닌 값 or 900 이상일때 No Print 기능 (그루지아 Agrohub 마트 요청) */
+					/* Sell_by_Date Value "0" 이거나 "900" 이상일때 No Print 기능 (그루지아 Agrohub 마트 요청) */
 					if (PrtItemStr.sellbydate != 0 && PrtItemStr.sellbydate < 900)	
 #else			
   #ifdef USE_SELLBYDATETIME_ZERO
@@ -5957,7 +5957,7 @@ void prtfield_generate_common_item(void)
 					}
 #endif
 				#ifdef USE_GEORGIA_MART_SELLBYDATE_FUNCTION
-					/* Sell_by_Date Value 0이 아닌 값 or 900 이상일때 No Print 기능 (그루지아 Agrohub 마트 요청) */
+					/* Sell_by_Date Value "0" 이거나 "900" 이상일때 No Print 기능 (그루지아 Agrohub 마트 요청) */
 					if (PrtItemStr.sellbydate != 0 && PrtItemStr.sellbydate < 900)	 
 				#else
 					#ifdef USE_SELLBYDATETIME_ZERO
