@@ -3018,8 +3018,8 @@ void external_print_sellbydate(char *send_string, INT8U sellbydate_check)
 	if (PrtItemStr.flagsellbydate != 1)
 	{
 #ifdef USE_GEORGIA_MART_SELLBYDATE_FUNCTION
-		/* Sell_by_Date Value 0일때 Today 출력하고 900 이상일때 No Print 기능 (그루지아 Agrohub 마트 요청) */
-		if (PrtItemStr.sellbydate < 900)				
+		/* Sell_by_Date Value 0이 아닌 값 or 900 이상일때 No Print 기능 (그루지아 Agrohub 마트 요청) */
+		if (PrtItemStr.sellbydate != 0 && PrtItemStr.sellbydate < 900)				
 #else
   #ifdef USE_SELLBYDATETIME_ZERO
 		if (PrtItemStr.sellbydate || PrtItemStr.sellbytime)		 // Sell by Date or Sell by Time존재시
@@ -4287,13 +4287,13 @@ INT8U individual_call(INT16U indiv_id)
 #ifdef USE_TOPMART_STRUCTURE //sewon 161129
 	if (!plu_check_inhibit_ptype(PTYPE_TR_COMP_FLAG))
 #else
-	if (!plu_check_inhibit_ptype(PTYPE_TRACE_FLAG))
+	if (!plu_check_inhibit_ptype(PTYPE_TRACE_FLAG))		// M1144 Set 여부
 #endif
 	{
-		if (status_scale.cur_pluid)
+		if (status_scale.cur_pluid)						// PLU가 호출이 되어 있는 상태로 개체호출 기능을 사용하면
 		{
 #ifdef USE_TRACE_FLAG_0_CHECK
-			if (!status_scale.Plu.trace_flag)
+			if (!status_scale.Plu.trace_flag)			// Tr.Flag가 0 즉, 개체이력 대상이 아닐때
 			{
 				BuzOn(2);		
 				//sprintf((char*)string_buf, "개체이력대상이 아닙니다");
@@ -4303,7 +4303,7 @@ INT8U individual_call(INT16U indiv_id)
 			}
 #endif
 		}
-		else 
+		else 											// PLU가 호출이 안된 상태로 개체호출 기능을 사용하면
 		{
 			BuzOn(2);
 			return OFF;

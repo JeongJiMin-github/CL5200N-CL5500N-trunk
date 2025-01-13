@@ -14,7 +14,7 @@
 //----------   국가 전용 기능  ----------//
  #define USE_TRACEABILITY						        // Use European Traceability
  #define USE_NUTRITION_FACT						        // Use Nutrition Fact
- #define USE_GEORGIA_MART_SELLBYDATE_FUNCTION           // 0: Pakced_Date, 1: Pakced_Date + 1, 2: Pakced_Date + 2, ... , 900~: No_Pirnt
+ #define USE_GEORGIA_MART_SELLBYDATE_FUNCTION           // 0: No_Print, 1: Pakced_Date + 1, 2: Pakced_Date + 2, ... , 900~: No_Pirnt
  #define USE_SELLBYDATETIME_ZERO					    // Sell by Date, Sell by Time이 0일 때 인쇄 안하는 기능
  #define USE_TRANSFER_MENU_SETTING				        // MENU Setting Up/down 기능 추가, *아직 영공만 가능.
  #define USE_CHECK_OUTOFPAPER_ON_LABEL			        // Label모드에서 Paper End 체크하는 기능. 즉시 멈춤
