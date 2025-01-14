@@ -18,6 +18,7 @@
  #define USE_KOREA_VERSION_DISPLAY	        // KOREA 버전 표시 
  #define USE_IMPORT_MEAT_PROTOCOL
  #define USE_TRACE_STANDALONE   	        // 축산 이력기능
+ #define USE_TRACE_FLAG_CHECK_FUNCTION      // PLU 이력번호 오류 체크 기능
  #define USE_GSMART_PLU         	        // Use GSMart PLU Structure(Kor)
  #define USE_GSMART_BARCODE                 // 할인 바코드 심볼 추가
  #define USE_BESTCO_DISCOUNT_DIVISION       // 베스트코 전용 할인판매 여부 체크 기능 (반드시 2byte 사용)

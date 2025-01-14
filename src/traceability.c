@@ -861,6 +861,9 @@ extern void individualData_LotFlagUpdate(INT32U num);
 char IndivMsg_NonTrace[] = {"이력번호대상이 아닙니다"};
 char IndivMsg_SameTraceNo[] = {"중복된 이력번호입니다"};
 char IndivMsg_TraceMemoryFull[] = {"이력번호기억공간 부족"};
+#ifdef USE_TRACE_FLAG_CHECK_FUNCTION
+	char IndivMsg_ErrorTraceNo[] = {"잘못된 이력번호입니다"};
+#endif
 
 extern TRACE_STATUS_STRUCT CalledTraceStatus;
 //[start]gm 090403

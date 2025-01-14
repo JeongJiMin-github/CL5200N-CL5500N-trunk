@@ -4280,6 +4280,9 @@ INT8U keyapp_call_individual(INT16U indiv_index, INT8U beep)
 
 extern char IndivMsg_NonTrace[];
 extern char IndivMsg_SameTraceNo[];
+#ifdef USE_TRACE_FLAG_CHECK_FUNCTION
+	extern char IndivMsg_ErrorTraceNo[];
+#endif
 INT8U individual_call(INT16U indiv_id)
 {
 	INT8U string_buf[25];
@@ -5933,9 +5936,9 @@ INT16S CheckPluPrint(INT8U check)
 #endif
 #ifdef USE_TRACE_STANDALONE
   #ifndef USE_TOPMART_STRUCTURE
-	if (!plu_check_inhibit_ptype(PTYPE_TRACE_FLAG))	// 개체 체크기능
+	if (!plu_check_inhibit_ptype(PTYPE_TRACE_FLAG))	// 개체 체크기능		// 여기서 TRACE_FLAG 크기 키워서 사용해도 될듯 함 아니면 PTYPE_TR_COMP_FLAG 이걸로
 	{
-		if (status_scale.Plu.trace_flag && !FlagDisplayIndividual) 
+		if (status_scale.Plu.trace_flag && !FlagDisplayIndividual) 	// tr.flag : 1, 개체매칭 안시키고 출력시
 		{
 			//DisplayMsg("Check Trace No");
 			BuzOn(3);
@@ -5944,7 +5947,7 @@ INT16S CheckPluPrint(INT8U check)
 			return OFF;
 		}
     #ifdef USE_TRACE_FLAG_0_CHECK
-		if (!status_scale.Plu.trace_flag && FlagDisplayIndividual)
+		if (!status_scale.Plu.trace_flag && FlagDisplayIndividual)	// tr.flag : 0, 개체 매칭 시키려는 동작
 		{
 			BuzOn(3);		
 			//sprintf((char*)string_buf, "개체이력대상이 아닙니다");
