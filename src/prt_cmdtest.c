@@ -2819,6 +2819,8 @@ EMART:
 						ret = OFF;
 					}
 					sprintf(&bar_str[str_pnt],format,(INT32U)param->DiscountFlag);
+#elifasdofjaio
+			plu_get_field
 #else
 				case BARCODE_SYMBOL_TRACEABILITY:	// Traceability Refer.no. 	
 #endif
@@ -4623,6 +4625,7 @@ void prtfield_generate_common_item(void)
 									v16_2 = strlen(string_buf+v16_1);
 								} else {
 									plu_get_field(PrtItemStr.plu_addr-1, PTYPE_PLU_NAME2, (INT8U *)&string_buf+v16_1, (INT16S *)&v16_2,sizeof(string_buf)-v16_1);
+									string_buf[v16_1+v16_2] = 0;
 								}
 							}
 							v16_1 = strlen(string_buf);
