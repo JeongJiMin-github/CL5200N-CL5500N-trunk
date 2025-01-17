@@ -1046,11 +1046,7 @@ void prt_set_strform_parameter_item(STRUCT_STRFORM_PARAM *param, TRANSACT_CHAIN 
 
 #ifdef USE_GSMART_BARCODE
 		param->DiscountFlag = status_scale.discountflag;
-  #ifdef USE_BESTCO_DISCOUNT_DIVISION
-		if (status_scale.percent_discount_flag == 1) param->DiscountVolume = (INT32U)status_scale.discount_rate;
-  #else /* USE_BESTCO_DISCOUNT_DIVISION */
 		if (status_scale.discountflag == 2) param->DiscountVolume = (INT32U)status_scale.discount_rate;
-  #endif /* USE_BESTCO_DISCOUNT_DIVISION*/
 		else param->DiscountVolume	= PrtItemStr.l_Price.TotalPrice[PRICE_SAVED]; 
 #endif
 
@@ -2819,8 +2815,6 @@ EMART:
 						ret = OFF;
 					}
 					sprintf(&bar_str[str_pnt],format,(INT32U)param->DiscountFlag);
-#elifasdofjaio
-			plu_get_field
 #else
 				case BARCODE_SYMBOL_TRACEABILITY:	// Traceability Refer.no. 	
 #endif

@@ -525,12 +525,7 @@ INT8U plu_callbykey(INT16U deptno,INT32U pluno, PLU_BASE *plu,INT8U *taretype)
 	INT8U decimal;
 #endif
 #if defined(USE_GSMART_BARCODE) || defined(USE_PRT_CHNIA_DISCOUNT_RATE)
-  #ifdef USE_BESTCO_DISCOUNT_DIVISION
-	status_scale.discountflag = 12;
-	status_scale.percent_discount_flag = 0;
-  #else
 	status_scale.discountflag = 0;
-  #endif /* USE_BESTCO_DISCOUNT_DIVISION */
 	status_scale.discount_rate = 0;
 #endif		
 	use_memberprice_flag = get_global_bparam(GLOBAL_SALE_SETUP_FLAG18) & 0x80;	//parameter 729
