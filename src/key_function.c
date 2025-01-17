@@ -11004,12 +11004,7 @@ void sale_pluclear(INT16S keyFlag)
 	status_scale.cur_ptare= 0;
 #endif
 #if defined(USE_GSMART_BARCODE) || defined(USE_PRT_CHNIA_DISCOUNT_RATE)
-  #ifdef USE_BESTCO_DISCOUNT_DIVISION
-	status_scale.discountflag = 12;
-	status_scale.percent_discount_flag = 0;
-  #else
 	status_scale.discountflag = 0;
-  #endif /* USE_BESTCO_DISCOUNT_DIVISION */
 	status_scale.discount_rate = 0;
 #endif
 	status_scale.divisor = 0;
