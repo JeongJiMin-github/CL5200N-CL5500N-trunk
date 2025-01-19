@@ -2809,12 +2809,25 @@ EMART:
 /////////////////// Traceability ////////////////////
 #ifdef USE_GSMART_BARCODE
 				case BARCODE_SYMBOL_DISCOUNT:
+  #ifdef USE_BESTCO_UNIT_PRICE_CATEGORY
+					plu_get_field(PrtItemStr.plu_addr-1, PTYPE_UNIT_PRICE_CATEGORY, (INT8U *)&param->unit_price_category, (INT16S *)&v16_2,sizeof(param->unit_price_category));
+
+					if (param->DiscountFlag == 0)
+					{
+						sprintf(&bar_str[str_pnt],format,(INT32U)param->unit_price_category);
+					}
+					else
+					{
+						sprintf(&bar_str[str_pnt],format,(INT32U)param->unit_price_category + 1);
+					}
+  #else
 					if (param->DiscountFlag >= power)
 					{
 						param->DiscountFlag = 0L;
 						ret = OFF;
 					}
 					sprintf(&bar_str[str_pnt],format,(INT32U)param->DiscountFlag);
+  #endif
 #else
 				case BARCODE_SYMBOL_TRACEABILITY:	// Traceability Refer.no. 	
 #endif
