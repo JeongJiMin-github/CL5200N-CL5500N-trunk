@@ -1423,6 +1423,10 @@ void plu_inhibit_default_standard_trace(void)	// KR
 #ifndef USE_KOREA_CL5200        
 	plu_inhibit_bycode(PTYPE_GROUP_NO,0);	//Group
 #endif
+#ifdef USE_BESTCO_DEFAULT
+	plu_inhibit_bycode(PTYPE_TRACE_NUM_CHECK,0);		// Trace Number Check
+	plu_inhibit_bycode(PTYPE_UNIT_PRICE_CATEGORY,0);	// 바코드 판매단가구분 기능
+#endif
 #if (PLU_COMMODITY_LINE_NO == 8)
 	plu_inhibit_bycode(PTYPE_PLU_NAME4,0);	// Name4
 	plu_inhibit_bycode(PTYPE_PLU_NAME5,0);	// Name5

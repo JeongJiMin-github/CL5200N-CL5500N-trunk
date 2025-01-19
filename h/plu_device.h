@@ -166,6 +166,10 @@ typedef struct {
 #define PTYPE_DISCOUNT_END_DATE	114
 #define PTYPE_DISCOUNT_TYPE		115
 #endif
+#ifdef USE_BESTCO_EXCULSIVE_FUNCTION
+#define PTYPE_TRACE_NUM_CHECK		116	// 이력번호 오류 체크 기능
+#define PTYPE_UNIT_PRICE_CATEGORY	117	// 베스트코 전용 바코드 판매단가 구분 기능
+#endif
 #define PTYPE_PREFIX			0x8003
 #define PTYPE_ALL				0xff
 // Ptype Define End
