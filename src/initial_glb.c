@@ -554,7 +554,7 @@ ROMDATA COUNTRY_SETTING_TYPE	ParameterCountry[]=
 	{  574,	     COUNTRY_UN, 	0   },// Print Zero Price
 #if defined(USE_LOTTEMART_DEFAULT) || defined(USE_NHMART_DEFAULT) || \
 	defined(USE_LOTTESUPER_DEFAULT) || defined(USE_TOPMART_DEFAULT) || \
-	defined(USE_EMART_DEFAULT) || defined(USE_BESTCO_DEFAULT)
+	defined(USE_EMART_DEFAULT)
     {  574,	     COUNTRY_KR, 	0   },// Print Zero Price
 #else
 	{  574,	     COUNTRY_KR, 	1   },// Print Zero Price
