@@ -3,6 +3,9 @@
         "vnm_lottemart_vl.h": "c",
         "kor_gsmart_g.h": "c",
         "ind_tata_ta.h": "c",
-        "uzb_r_d.h": "c"
+        "uzb_r_d.h": "c",
+        "kor_emart_e.h": "c",
+        "geo_agrohub_mart_ga.h": "c",
+        "kor_lottesuper_u.h": "c"
     }
 }
