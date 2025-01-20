@@ -75,6 +75,9 @@ typedef struct {
 	INT8U	trace_flag;
   #endif
 #endif
+#ifdef USE_TRACE_NUM_CHECK_FUNCTION
+	INT8U trace_num_check_flag;
+#endif
 #ifdef USE_FIXED_PLUTYPE//USE_EMART_NETWORK
 	INT8U  disable_typechange;	// plu type 변경 불가 flag
 #endif

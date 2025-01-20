@@ -698,6 +698,9 @@ INT8U plu_callbykey(INT16U deptno,INT32U pluno, PLU_BASE *plu,INT8U *taretype)
 	plu_get_field(plu->address-1, PTYPE_TRACE_FLAG,(INT8U *)&plu->trace_flag,&sz,sizeof(plu->trace_flag));
   #endif
 #endif
+#ifdef USE_TRACE_NUM_CHECK_FUNCTION
+	plu_get_field(plu->address-1, PTYPE_TRACE_NUM_CHECK,(INT8U *)&plu->trace_num_check_flag,&sz,sizeof(plu->trace_num_check_flag));
+#endif
 #ifdef USE_CONTROL_CHANGING_PRICE
 	plu->ctrlPriceChange = 0;
 	plu->upperLimit = 0;
