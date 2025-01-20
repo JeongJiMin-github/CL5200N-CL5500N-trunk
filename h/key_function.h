@@ -33,6 +33,12 @@ typedef struct
 #define INVALID_SLAUGHTERHOUSE 	0x02
 #define INVALID_GRADE 		0x01
 
+#ifdef USE_TRACE_NUM_CHECK_FUNCTION
+  #define TRACE_KOR_BEEF  1
+  #define TRACE_KOR_PORK  2
+  #define TRACE_KOR_NULL  3
+#endif
+
 #ifdef USE_QR_ADDTOTAL
   #ifdef USE_INDIA_DEFAULT
 	  #define MAX_QR_ADDCOUNT 30	// 인도 현지 요청에 의한 QR Add Total 최대 Transaction 수 확장
@@ -209,6 +215,9 @@ extern TRACE_INDIVIDUAL_IDENTITY indivInfo;	//저장되기 전 임시 개체 정보.
 #define    	KOR_TRACE_RETRY_CNT	 	1	//
 //#define		KOR_TRACE_TIMEOUT		20  // 3 second (100ms x 30)
 #define     KOR_TRACE_TIMEOUT		50  // 5 second (061113)
+#endif
+#ifdef USE_TRACE_NUM_CHECK_FUNCTION
+  extern INT8U Trace_Num_Check(void);
 #endif
 extern void keyapp_edit_store(void);
 extern void keyapp_change_prefix(void);
