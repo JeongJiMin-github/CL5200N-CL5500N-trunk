@@ -323,7 +323,7 @@
 //#define USE_MANAGE_LICENSE					// License 관리 기능
 #define USE_KOR_LABELFORM31 					// 31번 라벨 포맷 사용
 #define USE_FUNCTION_KEY_BLOCK 					// 키패드 오른편 기능키 onoff 사용여부 선택하는 기능
-//#define USE_CHN_CERTIFICATION					//중국 생산허가를 위한 기능. 생산펌웨어 제작시 주석 처리
+//#define USE_CHN_CERTIFICATION					// 중국 생산허가를 위한 기능. 생산펌웨어 제작시 주석 처리
 #define DISPLAY_REVISION_INFO   				// Revision 정보 출력여부 선택하는 디파인
 #define USE_CL5200_DISP_CONTINUOUS_REFRESH		// Display Refresh Parameter(737)에 따라 화면 갱신 주기 변경(1: 2s-100ms / 0: X-1,000ms)
 #define USE_ADM_AUTO_RESTORE					// ADM error(에러 03, 04) 일 때 자동으로 init 수행하도록 수정(공통적용)
