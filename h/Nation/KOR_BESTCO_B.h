@@ -2,6 +2,7 @@
  * File:   KOR_BESTCO_B.h
  * Author: JiMin JEONG
  * @brief  globals.h에서 분리된 한국 대상유통(Bestco Mart) 전용 파일
+ *         Base F/W : 독립형(I) 저울 기능
  */
 
 #ifndef KOR_BESTCO_B_H
@@ -19,7 +20,6 @@
  #define USE_IMPORT_MEAT_PROTOCOL
  #define USE_TRACE_STANDALONE   	        // 축산 이력기능
  #define USE_GSMART_PLU         	        // Use GSMart PLU Structure(Kor)
- #define USE_GSMART_BARCODE                 // 할인 바코드 심볼 추가
  #define PLU_COMMODITY_LINE_NO 5	        // 상품명5단
  #define USE_NUTRITION_FACT		            // Use Nutrition Fact
  #define USE_SELLBYDATETIME_ZERO	        // Sell by Date, Sell by Time이 0일 때 인쇄 안하는 기능
@@ -38,12 +38,6 @@
  #define USE_IMPORT_LOTNO 					// 수입육 이력 번호 24자리 확장 기능. 이 기능 사용하면 이력정보 초기화후에 사용해야함. 메모리 초기화!!
  #define USE_MANUAL_INPUT_IMPORT_LOTNO		// 수입육 묶음번호 입력 기능
  #define USE_MARBLING_GRADE_PRINT			// 소도체 근내지방도
- #define USE_BESTCO_EXCULSIVE_FUNCTION		// 베스트코 전용 기능
-
- #ifdef USE_BESTCO_EXCULSIVE_FUNCTION
-  #define USE_TRACE_NUM_CHECK_FUNCTION      // PLU 이력번호 오류 체크 기능
-  #define USE_BESTCO_UNIT_PRICE_CATEGORY    // 베스트코 전용 바코드 출력시 판매단가구분 기능
- #endif
 //----------   국가 전용 라벨 설정  ----------//
  #define USE_ENG_LABELFORMAT		        // 영공 라벨포맷 사용
  #define USE_KOR_LABELFORMAT		        // 국내 라벨포맷 사용(No.32~45 사용)
@@ -53,5 +47,12 @@
 //----------   국가 전용 바코드 설정  ----------//
 
 //----------   국가 전용 특정업장 설정  ----------//
- 
+ #define USE_BESTCO_EXCULSIVE_FUNCTION		// 베스트코 전용 기능
+
+  #ifdef USE_BESTCO_EXCULSIVE_FUNCTION
+    #define USE_TRACE_NUM_CHECK_FUNCTION    // PLU 이력번호 오류 체크 기능
+    #define USE_BESTCO_UNIT_PRICE_CATEGORY  // 베스트코 전용 바코드 출력시 판매단가구분 기능
+    #define USE_GSMART_BARCODE              // 할인 바코드 심볼 추가
+  #endif
+
 #endif  /* KOR_BESTCO_B_H */
