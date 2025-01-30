@@ -2171,7 +2171,14 @@ void set_barcode_default_kr(void)
   #endif
 #elif defined(USE_STANDARD_TRACE_DEFAULT)
 	barcodefile_default_KR_trace();
-  #ifdef USE_SHINSEGAE_DEFAULT
+  #if defined (USE_BESTCO_DEFAULT)
+	for (i=0; i<9; i++) 
+	{
+		set_global_bparam(GLOBAL_BARCODE_STD_WID+i,5);
+	}
+	set_global_bparam(GLOBAL_BARCODE_2, 4);
+  #endif
+  #if defined (USE_SHINSEGAE_DEFAULT)
 	for (i=0; i<9; i++) set_global_bparam(GLOBAL_BARCODE_STD_WID+i,5);
   #endif
 #elif defined(USE_LOTTEMART_DEFAULT)
