@@ -4280,9 +4280,6 @@ INT8U keyapp_call_individual(INT16U indiv_index, INT8U beep)
 
 extern char IndivMsg_NonTrace[];
 extern char IndivMsg_SameTraceNo[];
-#ifdef USE_TRACE_FLAG_CHECK_FUNCTION
-	extern char IndivMsg_ErrorTraceNo[];
-#endif
 INT8U individual_call(INT16U indiv_id)
 {
 	INT8U string_buf[25];
@@ -4290,13 +4287,13 @@ INT8U individual_call(INT16U indiv_id)
 #ifdef USE_TOPMART_STRUCTURE //sewon 161129
 	if (!plu_check_inhibit_ptype(PTYPE_TR_COMP_FLAG))
 #else
-	if (!plu_check_inhibit_ptype(PTYPE_TRACE_FLAG))		// M1144 Set 여부
+	if (!plu_check_inhibit_ptype(PTYPE_TRACE_FLAG))
 #endif
 	{
-		if (status_scale.cur_pluid)						// PLU가 호출이 되어 있는 상태로 개체호출 기능을 사용하면
+		if (status_scale.cur_pluid)
 		{
 #ifdef USE_TRACE_FLAG_0_CHECK
-			if (!status_scale.Plu.trace_flag)			// Tr.Flag가 0 즉, 개체이력 대상이 아닐때
+			if (!status_scale.Plu.trace_flag)
 			{
 				BuzOn(2);		
 				//sprintf((char*)string_buf, "개체이력대상이 아닙니다");
@@ -4306,7 +4303,7 @@ INT8U individual_call(INT16U indiv_id)
 			}
 #endif
 		}
-		else 											// PLU가 호출이 안된 상태로 개체호출 기능을 사용하면
+		else 
 		{
 			BuzOn(2);
 			return OFF;
@@ -5840,11 +5837,11 @@ INT8U Trace_Num_Check(void)
     char third_char = CurTraceStatus.indivStr.individualNO[2];
 
 	/* 국내산 or 수입산 이력번호 체크 */
-	if (first_char == '0' || first_char == '8')	// 이력번호 체크
+	if (first_char == '0' || first_char == '8')
 	{
 		meat_type = TRACE_KOR_BEEF;
 	}
-	else if (first_char == '1' || first_char == '9')	// 이력번호 체크
+	else if (first_char == '1' || first_char == '9')
 	{
 		meat_type = TRACE_KOR_PORK;
 	}
@@ -5915,8 +5912,8 @@ INT16S CheckPluPrint(INT8U check)
 #ifdef USE_TRACE_NUM_CHECK_FUNCTION
 	INT8U meat_type;
 	INT8U error_notice;
-	char indivmsg_error_trace_no[] = {"잘못된 이력번호입니다"};
 	char indivmsg_matching_Trace_no[] = {"이력번호 매칭 필요"};
+	char indivmsg_error_trace_no[] = {"잘못된 이력번호입니다"};
 #endif
 
 	date_flag = get_nvram_bparam(NVRAM_BUSINESS_DATE_FLAG);
@@ -6035,7 +6032,7 @@ INT16S CheckPluPrint(INT8U check)
 			if (meat_type == TRACE_KOR_NULL)				// 개체이력과 PLU가 매칭이 안된 상태에서 라벨출력시
 			{
 				BuzOn(3);
-				sprintf((char*)string_buf, indivmsg_matching_Trace_no);
+				sprintf((char*)string_buf, indivmsg_matching_Trace_no);		// "이력번호 매칭 필요"
 				display_message_page_mid((char*)string_buf);
 				return OFF;
 			}
@@ -6048,7 +6045,7 @@ INT16S CheckPluPrint(INT8U check)
             (status_scale.Plu.trace_num_check_flag == 2 && meat_type == TRACE_KOR_BEEF)) 
 			{
 				BuzOn(3);
-				sprintf((char*)string_buf, indivmsg_error_trace_no);
+				sprintf((char*)string_buf, indivmsg_error_trace_no);		// "잘못된 이력번호입니다"
 				display_message_page_mid((char*)string_buf);
 				return OFF;
 			}
