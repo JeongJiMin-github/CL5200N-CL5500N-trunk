@@ -27,6 +27,7 @@
     #define USE_NTEP_CERT_DEFAULT			    // 인증용 기본값 적용 (1. 인증용 라벨 ID 적용)
   #endif
   #define USE_STANDARD_DIRECT_INGREDIENT
+  #define USE_CONTINUOUS_LABEL_WITH_INGREDIENT
 //----------   국가 전용 라벨 설정  ----------//
  // USA/CANADA 전용 라벨 사용
  #define USE_USA_LABELFORMAT

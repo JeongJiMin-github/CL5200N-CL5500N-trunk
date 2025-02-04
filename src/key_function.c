@@ -10711,6 +10711,9 @@ INT8U keyapp_print(INT16S beep)
 {
 	INT8U ret_value = 0;
 	INT8U	changeFlag;
+	INT8U prtpapertype;
+
+	prtpapertype = get_global_bparam(GLOBAL_PAPER_TYPE); // Print Mode 설정값 끌고오는 변수
 	char S_msg1[32];
 	char S_msg2[32];
 	char string_buf[50];
@@ -10754,10 +10757,10 @@ INT8U keyapp_print(INT16S beep)
 	
 	if(Startup.country == COUNTRY_US && !GlbPrint.printNoRewind)	//Added by JJANG 20090421, 미국전용, 여러장 발행 시 임시로 센서와 모터를 끌 수 있다.
 	{
-		if(Operation.multiply)
+		if(Operation.multiply && prtpapertype == 0)
 		{
-			strcpy(S_msg1,"DO YOU WANT TO DISABLE PEEL OFF");
-			strcpy(S_msg2,"& REWIND MOTOR? (1=Y/0=N)");
+			strcpy(S_msg1,"Rewinder Motor Off?");
+			strcpy(S_msg2,"(1=Y/0=N)");
 			ret_value = display_message_check_page(S_msg1,S_msg2,1);
 			if (ret_value)
 			{

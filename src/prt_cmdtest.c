@@ -10382,16 +10382,37 @@ void Prt_SetPrintData(INT8U label_mode, RTC_STRUCT *time_str, INT16U dept_no, IN
 	}
 	
 }
+/**
+ * @brief   라벨의 가변된 내용을 적용하는 함수
 
+ * @param   id
+ *              - 라벨 ID
+ *              - 1 ~ MAX_LABEL_ROM_NO: 기본 라벨 영역
+ *              - MAX_LABEL_ROM_NO 이상: 사용자 라벨 영역
+ * @param   offset_flag
+ *              - Ingredient 높이 가변 플래그
+ *              - 1: 가변 적용
+ *              - 0: 가변 미적용
+ * @return 
+ *              - TRUE: 가변 성공
+ *              - FALSE: 가변 실패
+ * @remark
+ *          1. 기본 라벨은 플래시의 label_rom_addr를 통해 주소를 가져옴
+ *          2. 사용자 라벨은 get_new_labeladdress로 주소를 계산한 후 처리
+ *          3. 플래시 메모리에서 데이터를 읽고, 조정된 크기와 위치로 설정
+ */
 #ifdef USE_CONTINUOUS_LABEL_WITH_INGREDIENT
 INT8U label_adjust_form(INT16U id , INT8U offset_flag)
 {
-	INT32U saddr,addr,label_point;
-	INT16U label_address,w,label_size;
+	HUGEDATA char readflashtemp[LABEL_MAX_SIZE];
 	HUGEDATA char *baddr;
-	INT16S	  i,cnt;
+	INT32U image_addr,addr,label_point;
+	INT16U label_size, label_idx;
+	INT16U read_size;
+	INT16S cnt;
 	INT16U height, width;
-
+	struct LABEL_HEADER_INFO info;
+	memset(&info, 0, sizeof(info));
 // Interpreting Label form & find Ingredient field
 	if (PrtStruct.Mode == RECEIPT) return FALSE;
 	if (id==0) id=1;
@@ -10411,39 +10432,34 @@ INT8U label_adjust_form(INT16U id , INT8U offset_flag)
 	}
 	if ((id==0) || (id==0xffff)) return FALSE;
 // Download Label Format
-	saddr	= DFLASH_BASE;
-	saddr += FLASH_LABEL_AREA;
-	addr	= saddr;
-	label_address = 99;
-	for (i=0; i<20; i++) {
-		w=Flash_wread(addr);
-		if (w==id) {
-			label_address=i;
-			label_size = Flash_wread(addr+22);
-			break;
-		}
-		addr += LABEL_INFO_SIZE;
+	label_idx = get_new_labeladdress(id, 1);
+	if(label_idx == 999)
+	{
+		return FALSE;
 	}
-	if (label_address==99) return FALSE;
-	if (label_size>LABEL_MAX_SIZE) return FALSE;
-
-	label_point = label_address;
-	label_point*= LABEL_MAX_SIZE;
-	label_point+= LABEL_IMAGE;
-	label_point+= saddr;
-	Flash_flush_nvbuffer();
-	addr += 2;
-//	width = Flash_wread(addr);
-	addr += 2;
-	height = Flash_wread(addr);
+	addr = get_addr_from_label_idx(label_idx, LABEL_AREA_HEADER);
+	image_addr = get_addr_from_label_idx(label_idx, LABEL_AREA_IMAGE);
+	
+	read_label_header(addr, &info, L_H_I_H_BIT | L_H_I_S_BIT);
+	height = info.img_h;
+	label_size = info.img_size;
+	label_point = image_addr;
 FORM_COMMON:
 	width  = PrtStruct.LabelWidth;
 	height *= 8;
 	ingredient_height_adjust_flag=offset_flag;
 	PrtSetLabelSize(width, height+ingredient_height_offset);
 
-	PutDataRxBuf(&CommBufPrt,(HUGEDATA char *)label_point,label_size);
-	cnt=0;
+	cnt = 0;
+
+	// 읽을 라벨 사이즈가 LABEL_MAX_SIZE보다 크면 읽을 사이즈를 LABEL_MAX_SIZE로 처리, 기본은 읽어온 label_size로 적용
+	read_size = (label_size > LABEL_MAX_SIZE) ? LABEL_MAX_SIZE : label_size; 
+
+	// 라벨 이미지 플래시 주소로 접근하여 사이즈만큼 읽은 후 임시 버퍼로 저장
+	Flash_sread(label_point, readflashtemp, read_size);
+
+	// 임시 버퍼 내용을 CommBufPrt에 쌓기
+	PutDataRxBuf(&CommBufPrt, readflashtemp, read_size); 
 	
 	while(CheckRxBuf(&CommBufPrt)) {
 		CASInterpreter(&CommBufPrt);
@@ -10960,52 +10976,14 @@ void prtfield_fine_ingredient_item(INT16U *ingredNo)
 {
 	INT16S fieldid;
 	INT32U addr;
-	INT8U select,v8_1,v8_2,v8_3;
-	INT16U v16_1, v16_2, v16_3, v16_4, v16_5;
-	INT16U t16_3, t16_4, t16_5;
+	INT8U select,v8_1,v8_2;
+	INT16U v16_1, v16_2;
 	INT16U ingredSize;
-	INT32U v32_1;
-	INT8U sellbydate_check,prepack_type,time_print_type;
-	char string_buf[128], string_buf1[128];
-	INT8U wt_prt_type, DirectSetField;
-	//INT8U weightunit, weightunit_new_id;
+	char string_buf[128];
+	INT8U DirectSetField;
 	char *addrp;
-	//INT8U	chg_flag;
-	INT8U dec_ch;
-	char w_sign1[5], w_sign2[5];
-	INT8U changeIndivString;
 	INT8U flagDirectIngred;
-
-	dec_ch = get_global_bparam(GLOBAL_DECIMAL_SIGN);
-	if(PrtWeightUnit == WEIGHT_UNIT_KG || PrtWeightUnit == WEIGHT_UNIT_G) 
-	{
-		get_global_sparam(GLOBAL_WEIGHT_SYMBOL_1, (INT8U *)w_sign1, 4);
-		get_global_sparam(GLOBAL_WEIGHT_SYMBOL_2, (INT8U *)w_sign2, 4);
-	} 
-	else 
-	{
-		get_global_sparam(GLOBAL_WEIGHT_LBSYMBOL_1, (INT8U *)w_sign1, 4);
-		get_global_sparam(GLOBAL_WEIGHT_LBSYMBOL_2, (INT8U *)w_sign2, 4);
-	}
-	w_sign1[4] = 0;
-	w_sign2[4] = 0;
-
-	//price_dec     = get_global_bparam(GLOBAL_AREA_PRICE_DECIMALPOINT);
-	//dec_ch        = get_global_bparam(GLOBAL_DECIMAL_SIGN);
-	sellbydate_check= get_global_bparam(GLOBAL_SALE_SETUP_FLAG5)&0x01;
-	prepack_type  = get_global_bparam(GLOBAL_SALE_SETUP_FLAG5);
-	prepack_type>>=1;
-	prepack_type&=0x03;
-	//SG061218. PackOnTime, SellbyTime에 대한 인쇄 포맷 설정
-	//0=12:45(time), 1=A,B,..(alphabet), 2=1,2,..(numeric) format
-	time_print_type  = get_global_bparam(GLOBAL_SALE_SETUP_FLAG6); 
-	time_print_type>>=5;
-	time_print_type&=0x03;
-	//chg_flag = get_global_bparam(GLOBAL_SALE_SETUP_FLAG8) & 0x40;	//parameter 723 
-	wt_prt_type = 0;
-	changeIndivString = get_global_bparam(GLOBAL_SALE_SETUP_FLAG12);
-	changeIndivString &= 0x20;
-//	for (fieldid=0; fieldid<FIELD_ID_N_SERVING_SIZE; fieldid++) {
+	
 	for (fieldid=0; fieldid<230; fieldid++) {
 		string_buf[0] = 0;
 		DirectSetField = OFF;
@@ -11082,19 +11060,36 @@ void prtfield_fine_ingredient_item(INT16U *ingredNo)
 		}
 	}
 }
-
+/**
+ * @brief   라벨 데이터를 플래시에서 읽어오는 함수
+ * @param   id
+ *              - 라벨 ID
+ *              - 1 ~ MAX_LABEL_ROM_NO: 기본 라벨 영역
+ *              - MAX_LABEL_ROM_NO 이상: 사용자 정의 라벨 영역
+ * @return  성공 여부
+ *              - TRUE: 라벨 로드 성공
+ *              - FALSE: 라벨 로드 실패
+ * @remark
+ *  *       1. 기본 라벨은 플래시의 label_rom_addr를 통해 주소를 가져옴
+ *          2. 사용자 라벨은 get_new_labeladdress로 주소를 계산한 후 처리
+ *          3. 플래시 메모리에서 데이터를 읽고, 조정된 크기와 위치로 설정
+ *          4. Ingredient 필드(FIELD_ID_INGREDIENT_STR)가 존재하지 않을 경우 FALSE 반환
+ */
 INT8U label_load_form(INT16U id)
 {
 	HUGEDATA char CommTxBuf_ingredient_Memory[LABEL_MAX_SIZE];
-	HUGEDATA char CommRxBuf_ingredient_Memory[LABEL_MAX_SIZE];	
+	HUGEDATA char CommRxBuf_ingredient_Memory[LABEL_MAX_SIZE];
+	HUGEDATA char *baddr;
+	HUGEDATA char readflashtemp[LABEL_MAX_SIZE];
 	HUGEDATA COMM_BUF label_str;
 
-	INT32U saddr,addr,label_point;
-	INT16U label_address,w,label_size;
-	HUGEDATA char *baddr;
-	INT16S	  i,cnt;
+	INT32U image_addr,addr,label_point;
+	INT16U label_size, label_idx;
+	INT16U read_size;
+	INT16S cnt;
 	INT16U height, width;
-
+	struct LABEL_HEADER_INFO info;
+	memset(&info, 0, sizeof(info));
 	(label_str).Txing = 0;
 	(label_str).Rxing = 0;
 	(label_str).TxBufOutPtr = 0;
@@ -11126,32 +11121,18 @@ INT8U label_load_form(INT16U id)
 	}
 	if ((id==0) || (id==0xffff)) return FALSE;
 // Download Label Format
-	saddr	= DFLASH_BASE;
-	saddr += FLASH_LABEL_AREA;
-	addr	= saddr;
-	label_address = 99;
-	for (i=0; i<20; i++) {
-		w=Flash_wread(addr);
-		if (w==id) {
-			label_address=i;
-			label_size = Flash_wread(addr+22);
-			break;
-		}
-		addr += LABEL_INFO_SIZE;
+	label_idx = get_new_labeladdress(id, 1);
+	if(label_idx == 999)
+	{
+		return FALSE;
 	}
-	if (label_address==99) return FALSE;
-	if (label_size>LABEL_MAX_SIZE) return FALSE;
-
-	label_point = label_address;
-	label_point*= LABEL_MAX_SIZE;
-	label_point+= LABEL_IMAGE;
-	label_point+= saddr;
-	Flash_flush_nvbuffer();
-	addr += 2;
-//	width = Flash_wread(addr);
-	addr += 2;
-	height = Flash_wread(addr);
-//	goto COMMON;
+	addr = get_addr_from_label_idx(label_idx, LABEL_AREA_HEADER);
+	image_addr = get_addr_from_label_idx(label_idx, LABEL_AREA_IMAGE);
+	
+	read_label_header(addr, &info, L_H_I_H_BIT | L_H_I_S_BIT);
+	height = info.img_h;
+	label_size = info.img_size;
+	label_point = image_addr;
 FORM_COMMON:
 	width  = PrtStruct.LabelWidth;
 //COMMON:
@@ -11161,14 +11142,18 @@ FORM_COMMON:
 		PrtSetLabelSize(width, height);
 	}
 //	Find Ingredient Field & Get Y
-	PutDataRxBuf(&label_str,(HUGEDATA char *)label_point,label_size-2); // 마지막 2byte는  TPH Memory 전달 부분
-	cnt=0;	
-	ingredient_height_adjust_flag=0;
-	while(CheckRxBuf(&label_str)) {
-		find_ingredient_y_interpreter(&label_str);
-		cnt++;
-		if (cnt>LABEL_MAX_SIZE) return FALSE;
-	}
+	cnt = 0;
+	ingredient_height_adjust_flag = 0;
+
+	// 읽을 라벨 사이즈가 LABEL_MAX_SIZE보다 크면 읽을 사이즈를 LABEL_MAX_SIZE로 처리, 기본은 읽어온 label_size로 적용
+	read_size = (label_size > LABEL_MAX_SIZE) ? LABEL_MAX_SIZE : label_size; 
+
+	// 라벨 이미지 플래시 주소로 접근하여 사이즈만큼 읽은 후 임시 버퍼로 저장
+	Flash_sread(label_point, readflashtemp, read_size);
+
+	// 임시 버퍼 내용을 CommBufPrt에 쌓기
+	PutDataRxBuf(&CommBufPrt, readflashtemp, read_size); 
+	
 	if(StrFieldStruct[FIELD_ID_INGREDIENT_STR].ExistField==0){ // Don't exist Ingredient field
 		return FALSE;
 	}
