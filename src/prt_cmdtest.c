@@ -2811,11 +2811,12 @@ EMART:
 				case BARCODE_SYMBOL_DISCOUNT:
   #ifdef USE_BESTCO_UNIT_PRICE_CATEGORY
 					plu_get_field(PrtItemStr.plu_addr-1, PTYPE_UNIT_PRICE_CATEGORY, (INT8U *)&param->unit_price_category, (INT16S *)&v16_2,sizeof(param->unit_price_category));
-
+					/* 할인이 미적용된 기본 판매의 경우 판매단가구분 필드 값이 그대로 바코드 출력 */
 					if (param->DiscountFlag == 0)
 					{
 						sprintf(&bar_str[str_pnt],format,(INT32U)param->unit_price_category);
 					}
+					/* "-" or "%" 할인시 필드값에 +1 한 값을 바코드에 출력 */
 					else
 					{
 						sprintf(&bar_str[str_pnt],format,(INT32U)param->unit_price_category + 1);
