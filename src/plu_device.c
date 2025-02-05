@@ -1828,7 +1828,7 @@ void plu_struct_set_base(void)
   #else
 	  	sum+=plu_struct_set(idx++,"Aux BCode No."   ,PTYPE_AUX_BARCODE_NO   ,'W', 0l, 	99l, 2, 1, 0,i);  // 39
 	#ifdef USE_BESTCO_UNIT_PRICE_CATEGORY
-		sum+=plu_struct_set(idx++,"Unit Price Category"   ,PTYPE_UNIT_PRICE_CATEGORY ,'B', 0l, 	50l, 2, 1, 0,i);  // 40	// 판매단가구분
+		sum+=plu_struct_set(idx++,"Unit Price Category"   ,PTYPE_UNIT_PRICE_CATEGORY ,'B', 0l, 	99l, 2, 1, 0,i);  // 40	// 판매단가구분
 	#else
 	  	sum+=plu_struct_set(idx++,"Image No." 	  ,PTYPE_IMAGE_NO		  ,'B', 0l, 	14l, 2, 1, 0,i);  // 40
 	#endif
