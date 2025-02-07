@@ -1794,7 +1794,7 @@ void plu_struct_set_base(void)
 		sum+=plu_struct_set(idx++,"SpecialPrice"	,PTYPE_SPECIAL_PRICE	,'L', 0l, 999999l, 7, 1, 0,i);	// 32
 		sum+=plu_struct_set(idx++,"Tr. Flag"		,PTYPE_TRACE_FLAG		,'B', 0l,      1l, 1, 1, 0,i);	// 33
   #endif
-  #ifdef USE_TRACE_NUM_CHECK_FUNCTION
+  #ifdef USE_KOR_TRACE_NUM_CHECK_FUNCTION
 		sum+=plu_struct_set(idx++,"TraceNum Check"	,PTYPE_TRACE_NUM_CHECK	,'B', 0l,      2l, 1, 1, 0,i);	// 33	// 이력번호체크
   #else
 		sum+=plu_struct_set(idx++,"Tax No."			,PTYPE_TAX_NO			,'B', 0l,      9l, 1, 1, 0,i);	// 33
@@ -1827,7 +1827,7 @@ void plu_struct_set_base(void)
 	  	sum+=plu_struct_set(idx++,"Discount Type"	,PTYPE_DISCOUNT_TYPE	,'B', 0l,     99l, 2, 1, 0,i);	// 40 //행사유형
   #else
 	  	sum+=plu_struct_set(idx++,"Aux BCode No."   ,PTYPE_AUX_BARCODE_NO   ,'W', 0l, 	99l, 2, 1, 0,i);  // 39
-	#ifdef USE_BESTCO_UNIT_PRICE_CATEGORY
+	#ifdef USE_BESTCO_BARCODE_FUNCTION
 		sum+=plu_struct_set(idx++,"Unit Price Category"   ,PTYPE_UNIT_PRICE_CATEGORY ,'B', 0l, 	99l, 2, 1, 0,i);  // 40	// 판매단가구분
 	#else
 	  	sum+=plu_struct_set(idx++,"Image No." 	  ,PTYPE_IMAGE_NO		  ,'B', 0l, 	14l, 2, 1, 0,i);  // 40

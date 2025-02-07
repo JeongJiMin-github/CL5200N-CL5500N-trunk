@@ -509,7 +509,7 @@ typedef struct {
 #ifdef USE_HYUNDAI_SET_FUNCTION
 	INT8U ReceiptNo[23]; // receipt no 22 + 1
 #endif
-#ifdef USE_BESTCO_UNIT_PRICE_CATEGORY
+#ifdef USE_BESTCO_BARCODE_FUNCTION
 	INT8U unit_price_category;
 #endif
 } STRUCT_STRFORM_PARAM;

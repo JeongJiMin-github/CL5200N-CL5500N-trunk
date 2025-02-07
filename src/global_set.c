@@ -1424,8 +1424,8 @@ void plu_inhibit_default_standard_trace(void)	// KR
 	plu_inhibit_bycode(PTYPE_GROUP_NO,0);	//Group
 #endif
 #ifdef USE_BESTCO_DEFAULT
-	plu_inhibit_bycode(PTYPE_TRACE_NUM_CHECK,0);		// Trace Number Check
-	plu_inhibit_bycode(PTYPE_UNIT_PRICE_CATEGORY,0);	// 바코드 판매단가구분 기능
+	plu_inhibit_bycode(PTYPE_TRACE_NUM_CHECK,0);		// 축종구분
+	plu_inhibit_bycode(PTYPE_UNIT_PRICE_CATEGORY,0);	// 판매단가구분
 #endif
 #if (PLU_COMMODITY_LINE_NO == 8)
 	plu_inhibit_bycode(PTYPE_PLU_NAME4,0);	// Name4
@@ -2177,8 +2177,7 @@ void set_barcode_default_kr(void)
 		set_global_bparam(GLOBAL_BARCODE_STD_WID+i,5);
 	}
 	set_global_bparam(GLOBAL_BARCODE_2, 4);
-  #endif
-  #if defined (USE_SHINSEGAE_DEFAULT)
+  #elif defined (USE_SHINSEGAE_DEFAULT)
 	for (i=0; i<9; i++) set_global_bparam(GLOBAL_BARCODE_STD_WID+i,5);
   #endif
 #elif defined(USE_LOTTEMART_DEFAULT)

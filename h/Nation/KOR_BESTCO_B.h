@@ -47,12 +47,8 @@
 //----------   국가 전용 바코드 설정  ----------//
 
 //----------   국가 전용 특정업장 설정  ----------//
- #define USE_BESTCO_EXCULSIVE_FUNCTION		// 베스트코 전용 기능
-
-  #ifdef USE_BESTCO_EXCULSIVE_FUNCTION
-    #define USE_TRACE_NUM_CHECK_FUNCTION    // PLU 이력번호 오류 체크 기능
-    #define USE_BESTCO_UNIT_PRICE_CATEGORY  // 베스트코 전용 바코드 출력시 판매단가구분 기능
-    #define USE_GSMART_BARCODE              // 할인 바코드 심볼 추가
-  #endif
+ #define USE_KOR_TRACE_NUM_CHECK_FUNCTION    // PLU 이력번호 오류 체크 기능(소, 돼지 구분)
+ #define USE_BESTCO_BARCODE_FUNCTION  		// 바코드 내 판매단가구분(Bestco 전용) 코드 표시기능
+ #define USE_GSMART_BARCODE              	// 할인 바코드 심볼 추가
 
 #endif  /* KOR_BESTCO_B_H */

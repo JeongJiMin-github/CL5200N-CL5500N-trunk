@@ -352,6 +352,43 @@ INT8U get_cuttingcountry_name(INT16U cutting_no, HUGEDATA char *name, INT16U *co
 }
 #endif
 
+#ifdef USE_BESTCO_BARCODE_FUNCTION
+/**
+ * @brief  Bestco 마트 전용 할인시 특정 판매단가구분 코드에 + 1 하여 출력
+ * @param  value 						// 상품정보에 저장된 원본 판매단가구분 코드
+ * @return discount_unit_price_category // 최종 가공된 판매단가구분 코드
+**/
+static INT8U prt_discount_barcode_symbol(INT8U value)
+{
+	INT8U discount_unit_price_category;
+
+	/**  
+	* 할인시 10, 12, 40의 구분코드는 +1 한 값을 출력
+	* 이외의 판매단가 구분 코드는 들어온 그대로 출력
+	* 10 : 기준판가
+	* 11 : 할인적용된 기준판가
+	* 12 : 지역판가
+	* 13 : 할인적용된 지역판가
+	* 30 : 예외판가
+	* 40 : 행사가
+	* 41 : 할인적용된 행사가
+	* 42 : 유통기한행사가
+	**/
+	switch (value)
+	{
+	case 10:
+	case 12:
+	case 40:
+		discount_unit_price_category = value + 1;
+		break;	
+	default:
+		discount_unit_price_category = value;
+		break;
+	}
+	return discount_unit_price_category;
+}
+#endif
+
 INT8U Prt_CheckPeelAndHead(INT8U check_peeloff)
 {
 	INT8U result;
@@ -1187,7 +1224,10 @@ INT8U prt_make_strform_sub(char *bar_str, char *bar_form, STRUCT_STRFORM_PARAM *
    || defined(USE_NHMART_PIG_TRACE) || defined(USE_NHSAFE_PIG_TRACE) || defined(USE_TRACE_STANDALONE)
 	INT8S z;
 #endif
- 
+#ifdef USE_BESTCO_BARCODE_FUNCTION
+	INT8U discount_unit_price_Category;		// Bestco 전용 할인시 판매단가구분 코드 출력 변수
+#endif
+
 //--[bmlim060330
 	cnt    =0;
 	q_cnt = 0;
@@ -2809,17 +2849,18 @@ EMART:
 /////////////////// Traceability ////////////////////
 #ifdef USE_GSMART_BARCODE
 				case BARCODE_SYMBOL_DISCOUNT:
-  #ifdef USE_BESTCO_UNIT_PRICE_CATEGORY
+  #ifdef USE_BESTCO_BARCODE_FUNCTION
 					plu_get_field(PrtItemStr.plu_addr-1, PTYPE_UNIT_PRICE_CATEGORY, (INT8U *)&param->unit_price_category, (INT16S *)&v16_2,sizeof(param->unit_price_category));
 					/* 할인이 미적용된 기본 판매의 경우 판매단가구분 필드 값이 그대로 바코드 출력 */
 					if (param->DiscountFlag == 0)
 					{
 						sprintf(&bar_str[str_pnt],format,(INT32U)param->unit_price_category);
 					}
-					/* "-" or "%" 할인시 필드값에 +1 한 값을 바코드에 출력 */
+					/* "-" or "%" 할인시 특정 필드값에 +1 한 값을 바코드에 출력 */
 					else
 					{
-						sprintf(&bar_str[str_pnt],format,(INT32U)param->unit_price_category + 1);
+						discount_unit_price_Category = prt_discount_barcode_symbol(param->unit_price_category);
+						sprintf(&bar_str[str_pnt],format,discount_unit_price_Category);
 					}
   #else
 					if (param->DiscountFlag >= power)

@@ -5827,8 +5827,11 @@ int check_topmart_plu(void)
  * @brief  이력번호의 축종코드를 비교하여 고기종류(소 or 돼지)를 판단하는 함수
  * @param  void 
  * @return meat_type
+ * 			KOR_TRACE_BEEF = 1
+ * 			KOR_TRACE_PORK = 2
+ * 			KOR_TRACE_NULL = 3
  */
-#ifdef USE_TRACE_NUM_CHECK_FUNCTION
+#ifdef USE_KOR_TRACE_NUM_CHECK_FUNCTION
 INT8U Trace_Num_Check(void)
 {
 	INT8U meat_type;
@@ -5839,11 +5842,11 @@ INT8U Trace_Num_Check(void)
 	/* 국내산 or 수입산 이력번호 체크 */
 	if (first_char == '0' || first_char == '8')
 	{
-		meat_type = TRACE_KOR_BEEF;
+		meat_type = KOR_TRACE_BEEF;
 	}
 	else if (first_char == '1' || first_char == '9')
 	{
-		meat_type = TRACE_KOR_PORK;
+		meat_type = KOR_TRACE_PORK;
 	}
 
 	/* 묶음번호(국내산) 체크 */
@@ -5851,11 +5854,11 @@ INT8U Trace_Num_Check(void)
 	{
 		if (second_char == '0')
 		{
-			meat_type = TRACE_KOR_BEEF;
+			meat_type = KOR_TRACE_BEEF;
 		}
 		else if (second_char == '1')
 		{
-			meat_type = TRACE_KOR_PORK;
+			meat_type = KOR_TRACE_PORK;
 		}
 	}
 
@@ -5864,18 +5867,18 @@ INT8U Trace_Num_Check(void)
 	{
 		if (third_char == '1')
 		{
-			meat_type = TRACE_KOR_BEEF;
+			meat_type = KOR_TRACE_BEEF;
 		}
 		else if (third_char == '2')
 		{
-			meat_type = TRACE_KOR_PORK;
+			meat_type = KOR_TRACE_PORK;
 		}
 	}
 
 	/* 이력번호가 없을때 체크 */
 	if (first_char == NULL)
 	{
-		meat_type = TRACE_KOR_NULL;
+		meat_type = KOR_TRACE_NULL;
 	}
 
 	return meat_type;
@@ -5909,7 +5912,7 @@ INT16S CheckPluPrint(INT8U check)
 #ifdef USE_SUBTOTAL_PRICE_9DIGIT_LIMIT
     INT8U check_subtotal_price;
 #endif
-#ifdef USE_TRACE_NUM_CHECK_FUNCTION
+#ifdef USE_KOR_TRACE_NUM_CHECK_FUNCTION
 	INT8U meat_type;
 	INT8U error_notice;
 	char indivmsg_matching_Trace_no[] = {"이력번호 매칭 필요"};
@@ -6021,28 +6024,24 @@ INT16S CheckPluPrint(INT8U check)
     #endif
 	}
   #endif //USE_TOPMART_STRUCTURE
-  #ifdef USE_TRACE_NUM_CHECK_FUNCTION
+  #ifdef USE_KOR_TRACE_NUM_CHECK_FUNCTION
 	if (!plu_check_inhibit_ptype(PTYPE_TRACE_NUM_CHECK))	// 이력번호 축종 체크 기능
 	{
 		/* 축종코드에 값이 있을때만 입력받은 이력번호를 체크 */
 		if (status_scale.Plu.trace_num_check_flag != 0)
 		{
-			meat_type = Trace_Num_Check();
+			meat_type = Trace_Num_Check();					// 입력받은 이력번호를 이용한 축종구분
 
-			if (meat_type == TRACE_KOR_NULL)				// 개체이력과 PLU가 매칭이 안된 상태에서 라벨출력시
+			if (meat_type == KOR_TRACE_NULL)				// 개체이력과 PLU가 매칭이 안된 상태에서 라벨출력시
 			{
 				BuzOn(3);
 				sprintf((char*)string_buf, indivmsg_matching_Trace_no);		// "이력번호 매칭 필요"
 				display_message_page_mid((char*)string_buf);
 				return OFF;
 			}
-
-			/* 축종에 따른 이력번호 매칭 오류 체크 
-			** trace_num_check_flag == 1 -> 축종 '소'
-			** trace_num_check_flag == 2 -> 축종 '돼지'
-			*/
-			if ((status_scale.Plu.trace_num_check_flag == 1 && meat_type == TRACE_KOR_PORK) ||
-            (status_scale.Plu.trace_num_check_flag == 2 && meat_type == TRACE_KOR_BEEF)) 
+			/* 축종에 따른 이력번호 매칭 오류 체크 */
+			if ((status_scale.Plu.trace_num_check_flag == KOR_TRACE_BEEF && meat_type == KOR_TRACE_PORK) ||
+            (status_scale.Plu.trace_num_check_flag == KOR_TRACE_PORK && meat_type == KOR_TRACE_BEEF)) 
 			{
 				BuzOn(3);
 				sprintf((char*)string_buf, indivmsg_error_trace_no);		// "잘못된 이력번호입니다"
