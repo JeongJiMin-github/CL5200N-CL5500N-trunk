@@ -1225,7 +1225,7 @@ INT8U prt_make_strform_sub(char *bar_str, char *bar_form, STRUCT_STRFORM_PARAM *
 	INT8S z;
 #endif
 #ifdef USE_BESTCO_BARCODE_FUNCTION
-	INT8U discount_unit_price_Category;		// Bestco 전용 할인시 판매단가구분 코드 출력 변수
+	INT8U discount_unit_price_category;		// Bestco 전용 할인시 판매단가구분 코드 출력 변수
 #endif
 
 //--[bmlim060330
@@ -2859,8 +2859,8 @@ EMART:
 					/* "-" or "%" 할인시 특정 필드값에 +1 한 값을 바코드에 출력 */
 					else
 					{
-						discount_unit_price_Category = prt_discount_barcode_symbol(param->unit_price_category);
-						sprintf(&bar_str[str_pnt],format,discount_unit_price_Category);
+						discount_unit_price_category = prt_discount_barcode_symbol(param->unit_price_category);
+						sprintf(&bar_str[str_pnt],format,discount_unit_price_category);
 					}
   #else
 					if (param->DiscountFlag >= power)
