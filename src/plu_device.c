@@ -1794,7 +1794,7 @@ void plu_struct_set_base(void)
 		sum+=plu_struct_set(idx++,"SpecialPrice"	,PTYPE_SPECIAL_PRICE	,'L', 0l, 999999l, 7, 1, 0,i);	// 32
 		sum+=plu_struct_set(idx++,"Tr. Flag"		,PTYPE_TRACE_FLAG		,'B', 0l,      1l, 1, 1, 0,i);	// 33
   #endif
-  #ifdef USE_KOR_TRACE_NUM_CHECK_FUNCTION
+  #ifdef USE_BESTCO_TRACE_NUM_CHECK_FUNCTION
 		sum+=plu_struct_set(idx++,"TraceNum Check"	,PTYPE_TRACE_NUM_CHECK	,'B', 0l,      2l, 1, 1, 0,i);	// 33	// 이력번호체크
   #else
 		sum+=plu_struct_set(idx++,"Tax No."			,PTYPE_TAX_NO			,'B', 0l,      9l, 1, 1, 0,i);	// 33

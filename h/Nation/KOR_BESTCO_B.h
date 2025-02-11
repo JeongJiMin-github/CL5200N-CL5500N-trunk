@@ -34,7 +34,6 @@
  #define USE_DIGIT4_PRODUCT_SYMBOL          // 생산일 바코드인쇄시 4자리로 표현  년(1)월(1)일(2) -> 2015년 12월 25일 : 5275 10월 넘어가면 일에 50더함. 육가공업체용 제주남문점 요청
  #define USE_KOR_INGREDIENT_EXPAND	        // 국내 내수형 펌웨어 PLU 구조(상품명5단) 기준 성분 1,600개 확장 (기존: 200개), PLU 개수 8,000개 유지
  #define NOT_USE_NETSET_LOCK				// 저울 잠금기능 사용하지 않음
- #define USE_CTS_FUNCTION 					// Calibration Traceability System
  #define USE_IMPORT_LOTNO 					// 수입육 이력 번호 24자리 확장 기능. 이 기능 사용하면 이력정보 초기화후에 사용해야함. 메모리 초기화!!
  #define USE_MANUAL_INPUT_IMPORT_LOTNO		// 수입육 묶음번호 입력 기능
  #define USE_MARBLING_GRADE_PRINT			// 소도체 근내지방도
@@ -47,7 +46,7 @@
 //----------   국가 전용 바코드 설정  ----------//
 
 //----------   국가 전용 특정업장 설정  ----------//
- #define USE_KOR_TRACE_NUM_CHECK_FUNCTION    // PLU 이력번호 오류 체크 기능(소, 돼지 구분)
+ #define USE_BESTCO_TRACE_NUM_CHECK_FUNCTION    // PLU 이력번호 오류 체크 기능(소, 돼지 구분)
  #define USE_BESTCO_BARCODE_FUNCTION  		// 바코드 내 판매단가구분(Bestco 전용) 코드 표시기능
  #define USE_GSMART_BARCODE              	// 할인 바코드 심볼 추가
 

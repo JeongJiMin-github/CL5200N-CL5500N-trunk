@@ -5829,15 +5829,21 @@ int check_topmart_plu(void)
  * @return meat_type
  * 			KOR_TRACE_BEEF = 1
  * 			KOR_TRACE_PORK = 2
- * 			KOR_TRACE_NULL = 3
+ * 			KOR_TRACE_NONE = 3
  */
-#ifdef USE_KOR_TRACE_NUM_CHECK_FUNCTION
+#ifdef USE_BESTCO_TRACE_NUM_CHECK_FUNCTION
 INT8U Trace_Num_Check(void)
 {
-	INT8U meat_type;
+	INT8U meat_type = KOR_TRACE_NONE;
 	char first_char = CurTraceStatus.indivStr.individualNO[0];
     char second_char = CurTraceStatus.indivStr.individualNO[1];
     char third_char = CurTraceStatus.indivStr.individualNO[2];
+
+	/* 이력번호가 없을때 체크 */
+	if (first_char == 0)
+	{
+		meat_type = KOR_TRACE_NONE;
+	}
 
 	/* 국내산 or 수입산 이력번호 체크 */
 	if (first_char == '0' || first_char == '8')
@@ -5875,12 +5881,6 @@ INT8U Trace_Num_Check(void)
 		}
 	}
 
-	/* 이력번호가 없을때 체크 */
-	if (first_char == NULL)
-	{
-		meat_type = KOR_TRACE_NULL;
-	}
-
 	return meat_type;
 }
 #endif
@@ -5912,7 +5912,7 @@ INT16S CheckPluPrint(INT8U check)
 #ifdef USE_SUBTOTAL_PRICE_9DIGIT_LIMIT
     INT8U check_subtotal_price;
 #endif
-#ifdef USE_KOR_TRACE_NUM_CHECK_FUNCTION
+#ifdef USE_BESTCO_TRACE_NUM_CHECK_FUNCTION
 	INT8U meat_type;
 	INT8U error_notice;
 	char indivmsg_matching_Trace_no[] = {"이력번호 매칭 필요"};
@@ -6024,7 +6024,7 @@ INT16S CheckPluPrint(INT8U check)
     #endif
 	}
   #endif //USE_TOPMART_STRUCTURE
-  #ifdef USE_KOR_TRACE_NUM_CHECK_FUNCTION
+  #ifdef USE_BESTCO_TRACE_NUM_CHECK_FUNCTION
 	if (!plu_check_inhibit_ptype(PTYPE_TRACE_NUM_CHECK))	// 이력번호 축종 체크 기능
 	{
 		/* 축종코드에 값이 있을때만 입력받은 이력번호를 체크 */
@@ -6032,7 +6032,7 @@ INT16S CheckPluPrint(INT8U check)
 		{
 			meat_type = Trace_Num_Check();					// 입력받은 이력번호를 이용한 축종구분
 
-			if (meat_type == KOR_TRACE_NULL)				// 개체이력과 PLU가 매칭이 안된 상태에서 라벨출력시
+			if (meat_type == KOR_TRACE_NONE)				// 개체이력과 PLU가 매칭이 안된 상태에서 라벨출력시
 			{
 				BuzOn(3);
 				sprintf((char*)string_buf, indivmsg_matching_Trace_no);		// "이력번호 매칭 필요"

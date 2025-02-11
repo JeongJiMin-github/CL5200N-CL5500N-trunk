@@ -33,10 +33,10 @@ typedef struct
 #define INVALID_SLAUGHTERHOUSE 	0x02
 #define INVALID_GRADE 		0x01
 
-#ifdef USE_KOR_TRACE_NUM_CHECK_FUNCTION
+#ifdef USE_BESTCO_TRACE_NUM_CHECK_FUNCTION
   #define KOR_TRACE_BEEF  1
   #define KOR_TRACE_PORK  2
-  #define KOR_TRACE_NULL  3
+  #define KOR_TRACE_NONE  3
 #endif
 
 #ifdef USE_QR_ADDTOTAL
@@ -216,7 +216,7 @@ extern TRACE_INDIVIDUAL_IDENTITY indivInfo;	//저장되기 전 임시 개체 정보.
 //#define		KOR_TRACE_TIMEOUT		20  // 3 second (100ms x 30)
 #define     KOR_TRACE_TIMEOUT		50  // 5 second (061113)
 #endif
-#ifdef USE_KOR_TRACE_NUM_CHECK_FUNCTION
+#ifdef USE_BESTCO_TRACE_NUM_CHECK_FUNCTION
   extern INT8U Trace_Num_Check(void);
 #endif
 extern void keyapp_edit_store(void);
