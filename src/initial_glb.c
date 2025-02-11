@@ -155,6 +155,8 @@ ROMDATA PARAMETER_SETTING_TYPE  ParameterUserSetting[]=
 	{  32,	    90,		GLOBAL_LABEL_STANDARD,		FLASH_GLOBAL_AREA,  		2,	    2,	     0,	       0,	COUNTRY_KR},
 #elif defined(USE_MANAGE_INVENTORY_DEFAULT)
 	{  32,	    70,		GLOBAL_LABEL_STANDARD,		FLASH_GLOBAL_AREA,  		2,	    2,	     0,	       0,	COUNTRY_KR},
+#elif defined(USE_BESTCO_DEFAULT)
+	{  32,	    51,		GLOBAL_LABEL_STANDARD,		FLASH_GLOBAL_AREA,  		2,	    2,	     0,	       0,	COUNTRY_KR},
 #else
 	{  32,	    31,		GLOBAL_LABEL_STANDARD,		FLASH_GLOBAL_AREA,  		2,	    2,	     0,	       0,	COUNTRY_KR},
 #endif
