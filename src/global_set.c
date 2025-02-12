@@ -1420,8 +1420,12 @@ void plu_inhibit_default_standard_trace(void)	// KR
 	plu_inhibit_bycode(PTYPE_PLU_NAME5_FONT,0); 
 	plu_inhibit_bycode(PTYPE_GROUP_NO,0);	//Group 
 #endif
-#ifndef USE_KOREA_CL5200        
+#ifndef USE_KOREA_CL5200
+  #ifdef USE_BESTCO_DEFAULT
+	// 대상 DB에서 등급정보를 PLU 정보가 아닌 개체정보(M1371)에 전송하기 때문에 M1144 등급 Default : N 으로 수정
+  #else
 	plu_inhibit_bycode(PTYPE_GROUP_NO,0);	//Group
+  #endif
 #endif
 #ifdef USE_BESTCO_DEFAULT
 	plu_inhibit_bycode(PTYPE_TRACE_NUM_CHECK,0);		// 축종구분
