@@ -1806,15 +1806,14 @@ int get_firmware_name(char* name, const char *prefix)
         return -1;
 }
 
-int get_firmware_version(char* versionBuf)
+int get_firmware_version(char* versionBuf, INT32U version_buf_size)
 {
     char fwfile_name[FAT_FS_MAX_LFN];
     char tempBuf[70];
-    INT8U i = 0;
-    INT8U j = 0;
-    INT8U startLen = 0;
-    INT8U fileNameLen = 0;
-    char verStart[] = "V3.";
+	char *tok;
+	INT32U tok_cnt = 1;
+	INT32S buf_idx = 0;
+	int ret = -1;
 
 #ifdef CL5500N_BPRH
     if(get_firmware_name(fwfile_name, FW_UPDATE_FILE_CL5500N_BPRH_PREFIX) < 0) // check CL5500N-BPRH Firmware file
@@ -1826,53 +1825,32 @@ int get_firmware_version(char* versionBuf)
     {
         return -1; // file read faile
     }
-    strncpy(tempBuf, fwfile_name, sizeof(tempBuf));
 
-#ifdef CL5500N_BPRH
-    if(strncmp(tempBuf, "CL5500N_", 8) == 0)// CL5500N firmware
-    {
-        startLen = VERSION_INFO_START_POS; //15
-    }
-#elif defined CL5500N_D
-    if(strncmp(tempBuf, "CL5500N-D_", 10) == 0)// CL5500N-D firmware
-    {
-        startLen = VERSION_INFO_START_POS; //17
-    }
-#elif defined CL5200N_BP
-    if(strncmp(tempBuf, "CL5200N_", 8) == 0)// CL5200N firmware
-    {
-        startLen = VERSION_INFO_START_POS; //15
-    }
-#endif
-    else // File name rule broken or No Firmware file
-        return -1;
+	tok = strtok(fwfile_name, "_");
 
-    fileNameLen = strlen(tempBuf) - 4; // trim a filename extension '.hex' 
-    if(startLen >= fileNameLen)//File name rule broken 
-        return 0;
+	memset(tempBuf, 0, sizeof(tempBuf));
+	while (tok != NULL) {
+		if (tok_cnt > 2) { // 모델명, 날짜 스킵
+			INT32U tok_len = strlen(tok);
+			INT32U check_buf_idx = buf_idx+tok_len+1;
 
-// Convert Version name
-    for(i = startLen; i < fileNameLen; i++)
-    {
-        if((tempBuf[i] == 'r') && (tempBuf[i+1] >= '0' && tempBuf[i+1] <= '9')) // 'r' 다음 숫자 오면 리비전번호로 처리 
-            break;
+			if (check_buf_idx >= version_buf_size-1 || check_buf_idx >= sizeof(tempBuf)-1)
+				break;
 
-        if(tempBuf[i] == '_')
-        {
-            if(tempBuf[i+1] == 'V') // _V -> 국가코드 뒤 버전 시작 
-                versionBuf[j] = ' ';
-            else
-                versionBuf[j] = '.'; // -> 버전 사이 '.'
-        }
-        else
-            versionBuf[j] = tempBuf[i];
-        j++;
-    }
-    versionBuf[--j] = NULL;
-// Check Version name
-    if(strstr(versionBuf, verStart) == NULL) //'V3.' 검색 했는데 없는 경우
-        memset(versionBuf, 0, strlen(versionBuf));// version string  초기화
-    return 0;
+			if (tok_cnt >= 4 && tok_len >= 2 && tok[0] == 'r' && tok[1] >= '0' && tok[1] <= '9') {
+				strncpy(versionBuf, tempBuf, strlen(tempBuf)-1); // 마지막 '.'은 복사 x
+				ret = 0;
+				break;
+			}
+
+			strncat(tempBuf, tok, tok_len);
+			strcat(tempBuf, ".");
+			buf_idx += tok_len+1;
+		}
+		tok = strtok(NULL, "_");
+		tok_cnt++;
+	}
+	return ret;
 }
 
 void get_datarom_scaleType(INT32U scaleType, char* typestr)
@@ -2387,8 +2365,8 @@ INT8U data_rom_usb_update(void) // USB Memory -> Scale
 			return 0;
 		}
 #ifdef USE_DSP_USB_FW_UPDATE_VERSION        
-        memset(version, 0, strlen(version));
-        readversion = get_firmware_version(version);
+        memset(version, 0, sizeof(version));
+        readversion = get_firmware_version(version, sizeof(version));
         if (setVal.download[8] == 'Y')
             scaleType = setVal.scaleType;
         else 

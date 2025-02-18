@@ -6,6 +6,8 @@
         "uzb_r_d.h": "c",
         "kor_emart_e.h": "c",
         "geo_agrohub_mart_ga.h": "c",
-        "kor_lottesuper_u.h": "c"
+        "kor_lottesuper_u.h": "c",
+        "ven_un.h": "c",
+        "hun_un.h": "c"
     }
 }

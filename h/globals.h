@@ -52,7 +52,7 @@
 //#define USE_RUSSIA							// (R) 러시아
 
 //------- 국내 펌웨어 (알파벳, 오름차순 정렬) -------//
-//#define USE_BESTCO_MART						// (B) 대상유통(Bestco Mart) 전용 설정
+#define USE_BESTCO_MART						// (B) 대상유통(Bestco Mart) 전용 설정
 //#define USE_DISCLOSURE_MEAT_PRICE 			// (g) 축산물 공시제 (독립형 개체이력 base)
 //#define USE_EMART           					// (E) E-Mart - 이마트의 경우 V3.03.7부터 (E)버전과  (m)버전을 통합하여 (E)으로 만 관리
 //#define USE_GSMART							// (G) GS 마트 설정
@@ -63,7 +63,6 @@
 //#define USE_KOREA_CL5200     					// (k) CL5200 내수 버젼 (이력관리 기능 삭제)
 //#define USE_LOTTEMART       					// (J) Lotte Mart(국내 수입육 + GS1 DataBar Expand)
 //#define USE_LOTTESUPER						// (U) Lotte Super(국내 수입육에서 파생)
-//#define USE_LOTTESUPER_8LINE 					// (W) Lotte Super 상품명 8단(델리카 사용)
 //#define USE_NHMART          					// (N) 농협 설정
 //#define USE_SCALE_POS       					// (T) 저울나라 이력저울 => CL5200J에서 제거됨
 //#define USE_SHINSEGAE_MEAT					// (S) 신세계 백화점
@@ -116,6 +115,7 @@
 //#define USE_EMART_CL5200     					// (m) CL5200 이마트 (V3.03.7부터 사용 안함) - 이마트의 경우 V3.03.7부터 (E)버전과  (m)버전을 통합하여 (E)으로 만 관리
 //#define USE_NHMART_SAFE     					// (n) 농협 안심 한우
 //#define USE_IMPORT_MEAT_CART					// (s) 수입육 위해 개체(CART)(Pb Bat)
+//#define USE_LOTTESUPER_8LINE 					// (W) Lotte Super 상품명 8단(델리카 사용)
 /********************************************************************************/
 
 
@@ -195,7 +195,7 @@
 	#define USE_DISPLAY_COMM_SPEED_SETTING			// 계량모드에서 화면을 계속 갱신하고 있어서, PLU 전송 속도 느려지는 문제 개선 (P770 추가)
     #define USE_DSP_USB_FW_UPDATE_VERSION           // USB FW 업데이트 시 문구 및 버전 표시
     #define USE_DSP_MESSAGE_FOR_MEM_CLEAR           // Memory clear 동안 메세지 표시
-	//#define USE_AUTO_FIND_VERSION					// 버전 정보 자동으로 찾아오는 기능
+	#define USE_AUTO_FIND_VERSION					// 버전 정보 자동으로 찾아오는 기능
     //----------   CL5200N Test용 기능  ----------//
 //	#define USE_CPU_LOAD_TEST                       // CPU Load Test - 주기적으로 NVRAM Read/Write, 주기적인 연속 발행 인쇄 
 //	#define USE_TEST_AUTO_LABEL_PRINT				// 전원 ON 시 체스 라벨 1번 발행 테스트
@@ -244,7 +244,7 @@
 	#define USE_DATETIME_ZIG_TEST					// RTC TEST (MENU 1867/MENU 8570에서 RTC Read/Write, RTC Battery 동작 확인)
 	#define USE_DSP_USB_FW_UPDATE_VERSION           // USB FW 업데이트 시 문구 및 버전 표시
     #define USE_DSP_MESSAGE_FOR_MEM_CLEAR           // Memory clear 동안 메세지 표시
-	//#define USE_AUTO_FIND_VERSION					// 버전 정보 자동으로 찾아오는 기능
+	#define USE_AUTO_FIND_VERSION					// 버전 정보 자동으로 찾아오는 기능
     //----------   CL5200N Test용 기능  ----------//
 //	#define USE_CPU_LOAD_TEST                       // CPU Load Test - 주기적으로 NVRAM Read/Write, 주기적인 연속 발행 인쇄 
 //	#define USE_TEST_AUTO_LABEL_PRINT				// 전원 ON 시 체스 라벨 1번 발행 테스트
@@ -717,7 +717,6 @@
 //////////////////////////////////////////////////////////////////////////////////
 /*							< 아랍 폰트 사용 펌웨어 >							*/
 #ifdef USE_ARAB
-	#include "./Nation/ARAB_FONT_function_A.h"
 
 /*						< 아랍 폰트 특정 국가(Country) 선택 >						*/
 //#define COUNTRY_LEBANON
@@ -725,6 +724,12 @@
   #ifdef COUNTRY_LEBANON
   	#include "./Nation/LBN_A.h"
   #endif //COUNTRY_LEBANON
+
+//////////////////////////////////////////////////////////////////////////////////
+/*				< 아랍 공통사항 헤더파일 >			*/
+#include "./Nation/ARAB_FONT_function_A.h"
+//////////////////////////////////////////////////////////////////////////////////
+
 #endif //USE_ARAB
 //////////////////////////////////////////////////////////////////////////////////
 
