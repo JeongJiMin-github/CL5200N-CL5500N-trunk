@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include "globals.h"
 #include "serial.h"
 #include "flash.h"
@@ -782,6 +783,144 @@ INT8U CTS_CheckCalibrationDate(void)	// CTS structure가 읽힌 상태에서만 사용해야
 	
 }
 
+/*********************************************************************************************************
+ * @brief       SCALE KEY 및 PW KEY를 생성하는 함수
+ * @param       year: 현재 연도
+ * @param       month: 현재 월
+ * @param       day: 현재 일
+ * @param       plain_key: 설계된 구조를 바탕으로 생성된 Plain String의 하위 두 바이트
+ * @param       cipher_key: Plain KEY에서 DES 암호화를 통해 생성된 Cipher String의 하위 두 바이트
+ * @return      출력값은 포인터를 통해 전달됨
+ * @remark      1) ran_key1과 ran_key2를 난수로 생성하여 SCALE KEY를 만듦
+ *              2) Password Gen Version, 현재 년월일, ran_key 값을 결합하여 des_passkey를 구성 (DES 암호화)
+ *              3) DES 암호화 수행 후 enc_buf[6], enc_buf[7]을 PW KEY로 설정
+ *********************************************************************************************************
+
+**********************************************Plain String************************************************
+				Version(1) | Model Code(2) | Year(1) | Month(1) | Day(1) | Scale Key(Random, 2)
+**********************************************************************************************************
+
+*/
+  #ifdef USE_CTS_TEMP_ENABLE
+void generate_pw_key(INT16U year, INT16U month, INT16U day, INT16U *plain_key, INT16U *cipher_key)
+{
+	INT8U ran_key1, ran_key2;
+	INT8U des_passkey[8];
+	INT8U enc_buf[LIC_SCALE_HW_ID_SIZE + 1];
+	INT8U temp_key[LIC_KEY_SIZE];
+
+	memset(enc_buf, 0x00, sizeof(enc_buf));
+	memset(temp_key, 0x00, sizeof(temp_key));
+
+	srand(SysTimer100ms);
+	ran_key1 = rand() % 0x100;
+	ran_key2 = rand() % 0x100;
+  #if defined(CL5200N_BP) 
+	des_passkey[0] = 0x01; // Password Gen Version
+	des_passkey[1] = 0x43; // CL5200N Model Code(ASCII) -> C 
+	des_passkey[2] = 0x34; // CL5200N Model Code(ASCII) -> 4
+	des_passkey[3] = year; 
+	des_passkey[4] = month;
+	des_passkey[5] = day;
+	des_passkey[6] = ran_key1;
+	des_passkey[7] = ran_key2;
+  #else
+ 	des_passkey[0] = 0x01; // Password Gen Version
+  	des_passkey[1] = 0x43; // CL5500N Model Code(ASCII) -> C 
+  	des_passkey[2] = 0x38; // CL5500N Model Code(ASCII) -> 8
+  	des_passkey[3] = year; 
+  	des_passkey[4] = month;
+  	des_passkey[5] = day;
+  	des_passkey[6] = ran_key1;
+  	des_passkey[7] = ran_key2;
+  #endif
+	hexstr2hex(KEY_SCALE, temp_key, LIC_KEY_SIZE);
+	des_encrypt(des_passkey, enc_buf, temp_key, LIC_SCALE_HW_ID_SIZE);
+	
+	*plain_key = (ran_key1 << 8) | ran_key2;
+	*cipher_key = (enc_buf[6] << 8) | enc_buf[7];
+}
+  
+/************************************************************************************
+ * @brief       임시로 CAL Mode를 진입할 수 있게 하는 함수
+ * @return      정상적인 cipher_key 입력 시 함수 종료
+ * @remark      1) RTC에서 현재 날짜를 가져와 화면에 표시
+ *              2) generate_pw_key()를 호출하여 plain_key 생성
+ *              3) 사용자가 입력한 cipher_key KEY가 생성된 cipher_key와 일치하는지 검증
+ *                 일치하면 임시로 Cal Mode 진입 허용
+ ************************************************************************************/
+
+void allow_calibration_menu(void)
+{
+	INT8U result;
+    INT16U year, month, day;
+	INT16U plain_key, cipher_key;  
+	INT32U set_val[3];
+    CAPTION_STRUCT cap;
+	char s_date[20];
+	
+	Dsp_Clear();
+    
+	RTC_CLK_Burst_Read();
+	menu_display_menucode(0x9999, 1);
+
+    year = bcd2hex(RTCStruct.year);
+    month = bcd2hex(RTCStruct.month);
+    day = bcd2hex(RTCStruct.date);
+	sprintf(s_date, "%02d.%02d.%02d", year, month, day);
+
+	generate_pw_key(year, month, day, &plain_key, &cipher_key);
+
+	set_val[0] = (INT32U)plain_key;
+	set_val[1] = 0;
+
+	/**********************************************백도어 메뉴 구성**************************************************
+	 실제 메뉴가 아닌 CTS 임시 해제 기능 전용으로 생성된 메뉴라 캡션을 새로 따지 않고 관련된 기존 캡션을 가져와 하드코딩 진행 
+    ****************************************************************************************************************/
+	Menu_Init();
+
+	caption_split_by_code(0x3841, &cap, 0);
+	caption_adjust(&cap,NULL);
+	sprintf((char *)cap.form, "DATE:");
+    strcat((char *)cap.form, "[");
+    strcat((char *)cap.form, s_date);
+    strcat((char *)cap.form, "]");
+
+	Menu_InputCreate(1, (char *)cap.form, MENU_TYPE_FIX, cap.input_x, cap.input_dlength, cap.input_length,
+						cap.input_max, cap.input_min, 0, NULL , s_date, NULL, NULL);
+
+	caption_split_by_code(0x1a24, &cap, 0);
+	caption_adjust(&cap,NULL);
+	cap.input_x = 10;
+	sprintf((char *)cap.form, "SCALE KEY:");
+	Menu_InputCreate(2, (char *)cap.form, MENU_TYPE_NUM, cap.input_x, cap.input_dlength, cap.input_length,
+						cap.input_max, cap.input_min, 0, &set_val[0], NULL, NULL, NULL);
+
+    	
+	caption_split_by_code(0x1a24, &cap, 0);
+	caption_adjust(&cap,NULL);
+	cap.input_x = 7;
+	sprintf((char *)cap.form, "PW KEY:");
+	Menu_InputCreate(3, (char *)cap.form, MENU_TYPE_NUM, cap.input_x, cap.input_dlength, cap.input_length,
+						cap.input_max, cap.input_min, 0, &set_val[1], NULL, NULL, NULL);
+	
+	while(1)
+	{
+		result = Menu_InputDisplay();
+		if(result == MENU_RET_SAVE)	
+		{
+			if((INT16U)set_val[1] == cipher_key)
+			{
+				return;
+			}
+			else
+				BuzOnAdd(5);
+		}
+		else 
+			BuzOnAdd(5);
+	}
+}
+  #endif //USE_CTS_TEMP_ENABLE
 
 void mode_waiting_cal(void)
 {
@@ -791,14 +930,15 @@ void mode_waiting_cal(void)
 	INT16U len;
 	POINT disp_p;
 	INT8U string_buf[33];
-	INT16U start_time;
 	CAPTION_STRUCT cap;
 	
 //	old_page = DspStruct.Page;
+
 	old_font = DspStruct.Id1;
 	Dsp_SetPage(DSP_DEFAULT_PAGE);
 	DspLoadFont1(DSP_MENU_FONT_ID);
-	
+	KEY_SetMode(1);
+
 	Dsp_Fill_Buffer(0);
 	display_alloff_primary_indication();
 	caption_split_by_code(0x97B0, &cap,0);
@@ -815,16 +955,21 @@ void mode_waiting_cal(void)
 	DspLoadFont1(old_font);
 
 	BuzOnAdd(4);
-
-	start_time = SysTimer100ms;
+  #ifdef USE_CTS_TEMP_ENABLE
 	while(status_run.run_mode != RUN_CALIBRATION)
 	{
-		network_check();
-//		if ((INT16U)(SysTimer100ms - start_time) > 10*60) // until 1 min
-//		{
-//			Dsp_Diffuse();
-//			while(1);
-//		}
+		if(KEY_Read())
+		{
+			switch(KeyDrv.CnvCode){
+				case KP_ZERO :
+					BuzOnAdd(4);
+					allow_calibration_menu();
+					return;
+				default :
+					network_check();
+			}
+		}
 	}
+	#endif
 }
 #endif
