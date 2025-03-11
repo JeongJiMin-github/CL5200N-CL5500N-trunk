@@ -776,8 +776,18 @@ void    barcodefile_default_for_Lottemart(void)
 		{5, "중량", 	BARCODE_TYPE_RSSEXP,	0,	"010iiiiiiiiiiiii7003JJJJJJjjjjq3103WWWWWW3920PPPPPPP"},	// 52 digits
 		{6, "개수", 	BARCODE_TYPE_RSSEXP,	0,	"010iiiiiiiiiiiii7003JJJJJJjjjjq30QQQQQQQQq3920PPPPPPP"},	// 53 digit
 
+#ifdef USE_LOTTEMART_SUPER_INTEGRATION_DEFAULT
+		// 기존 롯데슈퍼 1~7 -> 7~13
+		{7, "중량상품", BARCODE_TYPE_RSSEXP,	0,	"010iiiiiiiiiiiiiq8008kkkkkkmmmmq7003JJJJJJjjjjq3103WWWWWWq3920PPPPPPPq99x"},	// 73 digits  [FNC1]+010+PLU(13자리)+[FNC1]+8008+생산일시(10자리)+[FNC1]+7003+유효일시(10자리)+[FNC1]+3103+중량(6자리)+[FNC1]+3920+금액(7자리)+[FNC1]+99+체크디지트(1자리)
+		{8, "개수상품", BARCODE_TYPE_RSSEXP,	0,	"010iiiiiiiiiiiiiq8008kkkkkkmmmmq7003JJJJJJjjjjq30QQQQQQQQq3920PPPPPPPq99x"},	// 73 digits  [FNC1]+010+PLU(13자리)+[FNC1]+8008+생산일시(10자리)+[FNC1]+7003+유효일시(10자리)+[FNC1]+30+수량(8자리)+[FNC1]+3920+금액(7자리)+[FNC1]+99+체크디지트(1자리)
+		{9, "판매용",		BARCODE_TYPE_EAN13, 	0,	"DDIIIIPPPPPPC"},																// 13 digits
+		{10, "보관용",		BARCODE_TYPE_CODE128,	0,	"NNNNNNTTTTTTTTTTTTTTuuss"},													// 24 digits
+		{11, "중량",			BARCODE_TYPE_RSSEXP,	0,	"010iiiiiiiiiiiiiq7003JJJJJJjjjjq3103WWWWWWq3920PPPPPPP"},						// 55 digits
+		{12, "개수",			BARCODE_TYPE_RSSEXP,	0,	"010iiiiiiiiiiiiiq7003JJJJJJjjjjq30QQQQQQQQq3920PPPPPPP"},						// 55 digits
+		{13, "농수산용",	BARCODE_TYPE_I2OF5,		0,	"DDIIIIPPPPPPWWWWWC"}
+#endif
 	};
-	for (i=0;i<6;i++)
+	for (i=0;i<sizeof(lottemartForm)/sizeof(lottemartForm[0]);i++)
 	{
 		set_base_sparam(FLASH_BARCODE_FORMAT_AREA + (BARCODE_STRUCT_SIZE * (INT32U)i),(INT8U *)&lottemartForm[i],sizeof(BARCODE_STRUCT));
 	} 
@@ -798,6 +808,10 @@ void	scanner_default_for_Lottemart(void)
 			"TTTTTTTTTTTTTTT",				// 15 묶음번호  //USE_LOTTEMART_PIG_TRACE
 			"NNNNNNggssstttvvvTTTTTTTTTTTTTTTTTTTTTTTT", //41자리 스캔바코드
 			"NNNNNNTTTTTTTTTTTTTTuuss",
+#ifdef USE_LOTTEMART_SUPER_INTEGRATION_DEFAULT
+			//"NNNNNNTTTTTTTTTTTTTTuuss", 	  //24 보관라벨
+			"NNNNNNTTTTTTTTTTTTuuss",
+#endif
 	};
 												
 	addr = DFLASH_BASE + FLASH_SCANNER_FORMAT;
@@ -832,6 +846,40 @@ void labelfile_default_for_Lottemart(void)		//라벨 변경키 default
 	barfmtNo = 4;
 	Flash_wwrite(addr, (INT16U)labelfmtNo);
 	Flash_wwrite(addr+2, (INT16U)barfmtNo);
+
+#ifdef USE_LOTTEMART_SUPER_INTEGRATION_DEFAULT
+	/* 롯데마트 3개 + 롯데슈퍼 4개 = 총 7개(MAX : 8개) */
+	// 이하 롯데슈퍼 설정
+// 일반라벨
+	addr += 6;
+	labelfmtNo = 95;
+	//barfmtNo = 1;
+	barfmtNo = 7;
+	Flash_wwrite(addr, (INT16U)labelfmtNo);
+	Flash_wwrite(addr+2, (INT16U)barfmtNo);
+// 보관라벨
+	addr += 6;
+	//labelfmtNo = 96;
+	labelfmtNo = 98;
+	//barfmtNo = 4;
+	barfmtNo = 10;
+	Flash_wwrite(addr, (INT16U)labelfmtNo);
+	Flash_wwrite(addr+2, (INT16U)barfmtNo);
+// 일반라벨 (무게 상품)
+	addr += 6;
+	labelfmtNo = 95;
+	//barfmtNo = 1;
+	barfmtNo = 7;
+	Flash_wwrite(addr, (INT16U)labelfmtNo);
+	Flash_wwrite(addr+2, (INT16U)barfmtNo);
+// 일반라벨 (개수 상품)
+	addr += 6;
+	labelfmtNo = 95;
+	//barfmtNo = 2;
+	barfmtNo = 8;
+	Flash_wwrite(addr, (INT16U)labelfmtNo);
+	Flash_wwrite(addr+2, (INT16U)barfmtNo);
+#endif
 }
 
 #elif defined(USE_LOTTESUPER_DEFAULT)

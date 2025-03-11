@@ -670,6 +670,7 @@ void global_set_barcode(void)	//program code = 0x1520
 	INT8U bartype;
 #endif
 #ifdef USE_LOTTESUPER_DEFAULT
+	// 롯데마트-슈퍼 통합 펌웨어에서 아래 코드는 고려하지 않기로 함
 	INT8U barcodefmtNo_forWeightPLU;
 	INT8U barcodefmtNo_forCountPLU;
 	INT32U addr;
@@ -733,6 +734,7 @@ void global_set_barcode(void)	//program code = 0x1520
 			}
 			set_global_bparam(GLOBAL_BARCODE_STD_WID+i,(INT8U)input_data[i+1]);
 #ifdef USE_LOTTESUPER_DEFAULT
+			// 롯데마트-슈퍼 통합 펌웨어에서 아래 코드는 고려하지 않기로 함
 			if(i == 0)
 			{
 				barcodefmtNo_forWeightPLU = (INT8U)input_data[i+1];	//무게상품 입력 값 
@@ -744,6 +746,7 @@ void global_set_barcode(void)	//program code = 0x1520
 #endif
 		}
 #ifdef USE_LOTTESUPER_DEFAULT
+		// 롯데마트-슈퍼 통합 펌웨어에서 아래 코드는 고려하지 않기로 함
 		addr = DFLASH_BASE + FLASH_LABEL_KEY_TABLE_AREA;
 		structSize = sizeof(LABEL_KEY_STRUCT); // 라벨변경 정보 저장용 구조체 크기 : 6
 		addr += structSize; // 롯데슈퍼 보관라벨 주소

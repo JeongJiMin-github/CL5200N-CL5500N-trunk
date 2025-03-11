@@ -14924,6 +14924,7 @@ void keyapp_labelformat_change(INT8U keyNum)
 	INT8U	strSize;
 	INT8U	common_bar;
 #ifdef USE_LOTTESUPER_DEFAULT
+	// 롯데마트-슈퍼 통합 펌웨어에서 아래 코드는 고려하지 않기로 함
 	INT8U barcodefmtNo_forWeightPLU;
 	INT8U barcodefmtNo_forCountPLU;
 #endif
@@ -14993,6 +14994,7 @@ void keyapp_labelformat_change(INT8U keyNum)
 			else 
 			{
   #ifdef USE_LOTTESUPER_DEFAULT
+  // 롯데마트-슈퍼 통합 펌웨어에서 아래 코드는 고려하지 않기로 함
 				if(keyNum == 1) // 일반라벨 -> 상품 종류별로 다른 포맷을 매칭 (무게 or 개수)
 				{
 					addr = FLASH_LABEL_KEY_TABLE_AREA + DFLASH_BASE;

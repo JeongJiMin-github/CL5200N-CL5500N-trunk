@@ -11238,6 +11238,11 @@ INT8U Prt_PrintLabel(INT8U label_mode, INT8U linked)
 		if(PrtFirstLabel) {
 			if(!prt_load_labelform(label_mode, linked)) return OFF;
 #ifdef USE_CONTINUOUS_LABEL_WITH_INGREDIENT
+			INT8U prt_paper_type;
+			prt_paper_type = get_global_bparam(GLOBAL_PAPER_TYPE);
+
+			if(prt_paper_type == PRINT_MODE_CONTINUOUS_LABEL)
+			{	
 			// Load Label Form
 			// Interpreting Label form & find Ingredient field			
 			ret_ingredient = label_load_form(status_scale.cur_labelid);
@@ -11255,6 +11260,7 @@ INT8U Prt_PrintLabel(INT8U label_mode, INT8U linked)
 				}
 			// label xy adjust
 			label_adjust_form(status_scale.cur_labelid,ret_ingredient);
+			}
 #endif
 #ifdef USE_SETPRODUCT_SALE
 			if(SetproductSaleMode && setproduct_PrtFlag)

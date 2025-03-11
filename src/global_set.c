@@ -1483,6 +1483,13 @@ void plu_inhibit_default_lottemart(void)	// KR
 	plu_inhibit_bycode(PTYPE_SELLBY_TIME_FLAG,0);	// 유효시간표시
 	plu_inhibit_bycode(PTYPE_EXT_BARCODE,0);	// 보조 바코드 표시
 	plu_inhibit_bycode(PTYPE_FIXED_WEIGHT,0);	// FixedWeight
+#ifdef USE_LOTTEMART_SUPER_INTEGRATION_DEFAULT
+	#if (PLU_COMMODITY_LINE_NO == 8)
+	plu_inhibit_bycode(PTYPE_PLU_NAME6,0);	// Name6
+	plu_inhibit_bycode(PTYPE_PLU_NAME7,0);	// Name7
+	plu_inhibit_bycode(PTYPE_PLU_NAME8,0);	// Name8
+	#endif
+#endif
   #ifdef USE_DISCOUNT_MEMBERSHIP
 	plu_inhibit_bycode(PTYPE_DISCOUNT_RATE1,0);	// 할인율 1 (엘포인트)
 	plu_inhibit_bycode(PTYPE_DISCOUNT_RATE2,0);	// 행사시작

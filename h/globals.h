@@ -61,6 +61,7 @@
 //#define USE_IMPORT_MEAT						// (I) 독립형 개체이력 (수입육 위해 개체)
 //#define USE_IMPORT_MEAT_8LINE					// (I8) 독립형 + 상품명 8단 적용
 //#define USE_KOREA_CL5200     					// (k) CL5200 내수 버젼 (이력관리 기능 삭제)
+//#define USE_LOTTEMART_SUPER_INTEGRATION       // MS Lotte Mart - Super 통합 
 //#define USE_LOTTEMART       					// (J) Lotte Mart(국내 수입육 + GS1 DataBar Expand)
 //#define USE_LOTTESUPER						// (U) Lotte Super(국내 수입육에서 파생)
 //#define USE_NHMART          					// (N) 농협 설정
@@ -572,6 +573,10 @@
 
 #ifdef USE_IMPORT_MEAT_CART
 	#include "./Nation/KOR_IMPORT_MEAT_CART_s.h"
+#endif
+
+#ifdef USE_LOTTEMART_SUPER_INTEGRATION
+	#include "./Nation/KOR_LOTTEMART_SUPER_INTEGRATION.h"
 #endif
 
 #ifdef USE_LOTTEMART
